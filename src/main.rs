@@ -3,7 +3,7 @@ mod clipboard;
 
 fn main() {
     println!("Hello, world!");
-    clipboard::copiar_al_portapapeles("test");
-    let bts = "V";
-    println!("{}", bts);
+    clipboard::copiar_al_portapapeles("tula");
+    println!("el sexo del portapapeles es: {}", clipboard::texto_del_portapapeles());
+    
 }

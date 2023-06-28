@@ -17,12 +17,14 @@ pub fn copiar_al_portapapeles(texto: &str) {
 /// funciona solo en windows
 /// # Returns
 /// el texto guardado en el portapapeles
-pub fn texto_del_portapapeles()-> &str {
+pub fn texto_del_portapapeles()-> String {
     //intenta obtener y devolver el texto almacenado en el portapapeles
     if let Ok(clipboard_text) = get_clipboard_string() {
         println!("Contenido del portapapeles: {}", clipboard_text);
+        return  clipboard_text;
+    
     } else {
         println!("No se pudo obtener el contenido del portapapeles");
+        return "".to_string();
     }
-    clipboard_text
 }
