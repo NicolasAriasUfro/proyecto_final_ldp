@@ -22,7 +22,7 @@ pub fn texto_del_portapapeles()-> String {
     if let Ok(clipboard_text) = get_clipboard_string() {
         println!("Contenido del portapapeles: {}", clipboard_text);
         return  clipboard_text;
-    
+        
     } else {
         println!("No se pudo obtener el contenido del portapapeles");
         return "".to_string();
