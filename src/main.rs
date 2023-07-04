@@ -1,14 +1,16 @@
 mod crypto_base;
+
+#[cfg_attr(target_family = "unix", path = "clipboard_generic.rs")]
+#[cfg_attr(target_family ="windows", path = "clipboard.rs")]
 mod clipboard;
 mod panel;
-mod sql_playground;
+mod ejemplo_sql;
 
 
 
 fn main() {
     //panel::panel_login();
-    sql_playground::test_3();
-    println!("hola");
+    ejemplo_sql::test_3();
     
     
 

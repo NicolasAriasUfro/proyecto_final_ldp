@@ -8,7 +8,8 @@ struct Person {
 }
 
 pub fn test_3() -> Result<()> {
-    let conn = Connection::open("database.db")?;
+
+    let conn = Connection::open("ejemplo_database.db")?;
 
     conn.execute(
         "CREATE TABLE person (
