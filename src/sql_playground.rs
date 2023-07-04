@@ -7,7 +7,7 @@ struct Person {
     data: Option<Vec<u8>>,
 }
 
-pub fn test_2() -> Result<()> {
+pub fn test_3() -> Result<()> {
     let conn = Connection::open_in_memory()?;
 
     conn.execute(
