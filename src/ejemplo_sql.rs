@@ -8,6 +8,7 @@ struct Person {
 }
 
 pub fn test_3() -> Result<()> {
+
     let conn = Connection::open("ejemplo_database.db")?;
 
     conn.execute(
