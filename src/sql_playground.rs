@@ -10,4 +10,5 @@ pub fn playground() -> rusqlite::Result<()> {
         )",
         [],
     )?
+
 }
