@@ -1,5 +1,5 @@
-use rusqlite::{Connection,Result};
-// playground by nico
+use rusqlite::{Connection, Result};
+// playground by nico por nico y solo por nico
 
 pub fn playground() -> rusqlite::Result<()> {
     let conn  = Connection::open("cat.db");
