@@ -1,9 +1,11 @@
+mod conexionbd.rs;
 use dialoguer::Confirm;
 
-pub fn panel_login() {
 
+pub fn panel_login() {
+    // llamada a la base  de datos
     let confirmed = Confirm::new()
-    .with_prompt("Are you sure you want to proceed?")
+    .with_prompt("Bienvenido")
     .interact()
     .unwrap();
 

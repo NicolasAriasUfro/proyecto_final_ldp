@@ -4,7 +4,6 @@ mod panel;
 
 
 fn main() {
-    println!("Hello, world!");
     panel::panel_login();
     
     
