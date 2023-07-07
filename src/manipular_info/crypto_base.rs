@@ -55,11 +55,12 @@ impl Criptografia{
 
 }
 
-pub fn derivar_llave(clave:&[u8],buffer_salida_llave:&mut [u8],salida_sal:&mut [u8;16]){
+pub fn derivar_llave(clave:&String,buffer_salida_llave:&mut [u8],salida_sal:&mut [u8;16]){
+    let key=sha256::digest(clave.clone());
     let raw_salt=SaltString::generate(&mut ChaCha20Rng::from_entropy());
     let mut salt=[0u8;16];
     raw_salt.decode_b64(&mut salt).unwrap();
-    Argon2::default().hash_password_into(clave, &salt, buffer_salida_llave).unwrap();
+    Argon2::default().hash_password_into(key.as_bytes(), &salt, buffer_salida_llave).unwrap();
     *salida_sal=salt.clone();
 }
 
