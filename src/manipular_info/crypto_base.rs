@@ -1,6 +1,7 @@
 use aes_gcm_siv::{aead::{Payload, generic_array::GenericArray, Aead}, Aes256GcmSiv, KeyInit};
-use argon2::{Argon2,  password_hash::{SaltString}};
+use argon2::{Argon2,  password_hash::{SaltString}, PasswordHasher};
 use rand_chacha::{ChaCha20Rng, rand_core::{SeedableRng, RngCore}, ChaChaRng};
+use sha256::try_digest;
 
 pub struct Criptografia{
     cifrador:Aes256GcmSiv,
@@ -51,6 +52,7 @@ impl Criptografia{
     }
 
 
+
 }
 
 pub fn derivar_llave(clave:&[u8],buffer_salida_llave:&mut [u8],salida_sal:&mut [u8;16]){
@@ -59,6 +61,17 @@ pub fn derivar_llave(clave:&[u8],buffer_salida_llave:&mut [u8],salida_sal:&mut [
     raw_salt.decode_b64(&mut salt).unwrap();
     Argon2::default().hash_password_into(clave, &salt, buffer_salida_llave).unwrap();
     *salida_sal=salt.clone();
+}
+
+pub fn hash_llave(contra:&[u8],sal:&[u8;16])->Vec<u8>{
+        let sal=SaltString::encode_b64(sal).unwrap(); //esto no deberia ser?
+        let hash_llave=Argon2::default().hash_password(contra, &sal);
+        match hash_llave {
+            Ok(hash_contra)=>hash_contra.hash.unwrap().as_bytes().to_owned(), //esto es muy jocoso.
+            Err(_)=>panic!("no se pudo calcular hash de la contraseña maestra...")
+            
+        }
+
 }
 
 
@@ -82,5 +95,9 @@ pub fn crear_nonce()->[u8;12]{
     return nonce;
 }
 
+
+pub fn hash_entregado_valido(hash_entregado:&[u8],hash_almacenado:&[u8])->bool{
+    hash_entregado==hash_almacenado
+}
 
 
