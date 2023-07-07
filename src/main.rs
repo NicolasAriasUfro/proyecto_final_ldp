@@ -4,10 +4,10 @@ mod manipular_info;
 
 #[cfg_attr(target_family = "unix", path = "clipboard_generic.rs")]
 #[cfg_attr(target_family ="windows", path = "clipboard.rs")]
-mod clipboard;
+
+mod clipboard_generic;
 mod panel;
 mod ejemplo_sql;
-
 
 
 fn main() {
