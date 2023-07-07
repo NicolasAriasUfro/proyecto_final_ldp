@@ -3,7 +3,7 @@ use std::time::{self, UNIX_EPOCH};
 use self::{info_almacenada::Entrada, crypto_base::crear_nonce};
 
 pub mod crypto_base;
-mod info_almacenada;
+pub(crate) mod info_almacenada;
 mod generador_contra;
 
 

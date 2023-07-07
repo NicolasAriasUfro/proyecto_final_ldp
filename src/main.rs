@@ -1,10 +1,7 @@
 use crate::manipular_info::crypto_base::{hash_llave, derivar_llave};
-
 mod manipular_info;
 
-#[cfg_attr(target_family = "unix", path = "clipboard_generic.rs")]
-#[cfg_attr(target_family ="windows", path = "clipboard.rs")]
-
+mod controller_sql;
 mod clipboard_generic;
 mod panel;
 mod ejemplo_sql;
@@ -12,7 +9,7 @@ mod ejemplo_sql;
 
 fn main() {
     //panel::panel_login();
-    ejemplo_sql::test_3();
+    controller::set_database();
     let clave=b"contra";
     let mut sal=[0u8;16];
     let mut llave=[0u8;32];
