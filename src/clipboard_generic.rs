@@ -1,7 +1,5 @@
 use clipboard::{ClipboardProvider, ClipboardContext};
 
-
-extern crate clipboard;
 /// Esta funcion copia un str al portapapeles de windows
 /// # Arguments
 /// * `texto` es la cadena que se copiará al portapapeles
