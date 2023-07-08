@@ -49,7 +49,7 @@ pub fn wea() -> String {
 
 pub fn get_password(password: &str) {
     // Llama a la función de validación de llave maestra pasando la contraseña ingresada
-    //let valid = validar_llave_maestra(password);
+    // let valid = validar_llave_maestra(password);
     /* 
     if valid {
         println!("Contraseña válida. Acceso permitido.");
@@ -60,7 +60,7 @@ pub fn get_password(password: &str) {
 
     // TODO: esta funcion debe obtener la contraseña de la base de datos una vez se halla validado 
     // con la contraseña ingresada, debe dar una excepción si la contraseña es incorrecta.
-    
+
 }
 
 
