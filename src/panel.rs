@@ -2,7 +2,7 @@ use dialoguer::Password;
 
 use crate::controlador::password_validator;
 struct App {
-    
+
 }
 
 impl App {
@@ -56,5 +56,5 @@ impl App {
         
     }
 
-    pub fn 
+    
 }
