@@ -10,7 +10,7 @@ mod ejemplo_sql;
 mod controlador;
 
 fn main() {
-    //panel::panel_login();
+    
     for argument in env::args(){
         match argument.as_str(){
             "--test"=>tests(),
@@ -18,6 +18,7 @@ fn main() {
 
         }
     }
+    
     ejemplo_sql::test_3();
     let clave="contra".to_owned();
     let mut sal=[0u8;16];
