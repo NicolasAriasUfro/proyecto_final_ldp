@@ -89,7 +89,7 @@ pub fn crear_nonce()->[u8;12]{
     let mut nonce=[0u8;12];
     for i in 0..12{
         let random_num=rand.next_u32() as u8;
-        print!("{}\\",random_num);
+        //print!("{}\\",random_num);
         nonce[i]=random_num;
     };
 

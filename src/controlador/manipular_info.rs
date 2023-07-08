@@ -4,11 +4,11 @@ use self::{crypto_base::crear_nonce, info_almacenada::Entrada};
 
 pub mod crypto_base;
 mod generador_contra;
-mod info_almacenada;
+pub mod info_almacenada;
 
 pub fn nueva_entrada(
-    titulo: String,
-    usuario: Option<String>,
+    titulo: Option<String>,
+    usuario: String,
     plaintext_contra: String,
     url: Option<String>,
 ) -> Entrada {
