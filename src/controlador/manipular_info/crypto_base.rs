@@ -64,7 +64,7 @@ pub fn derivar_llave(clave:&String,buffer_salida_llave:&mut [u8],salida_sal:&mut
     *salida_sal=salt.clone();
 }
 
-pub fn hash_llave(contra:&[u8],sal:&[u8;16])->Vec<u8>{
+pub fn hash_contra_maestra(contra:&[u8],sal:&[u8;16])->Vec<u8>{
         let sal=SaltString::encode_b64(sal).unwrap(); //esto no deberia ser?
         let hash_llave=Argon2::default().hash_password(contra, &sal);
         match hash_llave {
