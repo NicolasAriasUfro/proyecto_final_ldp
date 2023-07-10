@@ -55,7 +55,7 @@ impl Criptografia{
 
 }
 
-pub fn derivar_llave(clave:&String,buffer_salida_llave:&mut [u8],salida_sal:&mut [u8;16]){
+pub fn derivar_llave(clave:&String,buffer_salida_llave:&mut [u8;32],salida_sal:&mut [u8;16]){
     let key=sha256::digest(clave.clone());
     let raw_salt=SaltString::generate(&mut ChaCha20Rng::from_entropy());
     let mut salt=[0u8;16];

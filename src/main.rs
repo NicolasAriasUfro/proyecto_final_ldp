@@ -3,7 +3,7 @@ use std::{env, process::exit};
 use base64::{engine::general_purpose, Engine};
 use controlador::manipular_info::crypto_base::crear_nonce;
 
-use crate::controlador::manipular_info::{crypto_base::{hash_contra_maestra, derivar_llave}, info_almacenada::recrear_nonce};
+use crate::controlador::manipular_info::{crypto_base::{hash_contra_maestra, derivar_llave}, info_almacenada::{recrear_nonce}, iniciar_nueva_base_de_datos};
 use crate::controlador::manipular_info::info_almacenada::Entrada;
 
 
@@ -26,7 +26,9 @@ fn main() {
     }
     
     controller_sql::set_database();
-    test_nico();
+    test_nico();    
+    //controller_sql::agregar_cuenta(&Entrada::new_creado(None,"twitter".to_owned(),"12345678".to_owned(),*b"abcdefghijkl",None)).unwrap();
+
     let clave="contra".to_owned();
     let mut sal=[0u8;16];
     let mut llave=[0u8;32];
@@ -43,7 +45,6 @@ fn test_nico(){
         "nico_arias".parse().unwrap(),
         "asd24355##".parse().unwrap(),
         [0,0,0,0,00,0,0,0,0,0,0,1],
-        0,
         Some(String::from("https://codeforces.com/"))
     );
     print!("mdg 2");
@@ -66,6 +67,7 @@ fn tests(){
     println!("key={:?}\n key_hash={:?}",llave,hash_contra_maestra(&llave, &sal));
     assert_ne!(hash_contra_maestra(&llave, &sal),llave);
     reconstruir_nonce();
+    iniciar_nueva_base_de_datos();
 }
 
 fn reconstruir_nonce(){
