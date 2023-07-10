@@ -42,10 +42,6 @@ pub fn validar_llave_maestra(contra_recibida:&[u8],sal:&[u8;16])->bool{
     hash_guardado==hash_calculado
 }
 
-pub fn wea() -> String {
-    let a ="hola".to_string();
-    a
-}
 
 pub fn get_password(password: &str) {
     // Llama a la función de validación de llave maestra pasando la contraseña ingresada
