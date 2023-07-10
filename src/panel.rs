@@ -3,7 +3,7 @@ use std::slice::ChunksExact;
 use dialoguer::Password;
 
 use crate::controlador::*;
-struct App {
+pub struct App {
 }
 
 impl App {
@@ -16,7 +16,7 @@ impl App {
             .expect("Error al solicitar la contraseña, contraseña incorrecta");
     }
 
-    // panel para crear la contraseña si no existe, luego almacenarla en la base de datos y finalmente
+    // panel para crear la contraseña si la base de datos no existe, luego almacenarla en la base de datos y finalmente
     pub fn panel_register() {
         
 
