@@ -52,7 +52,7 @@ impl App {
         2 google   juan         https://www.google.com    ********
         3          a@gmail.com                            **************
 
-        crear nueva cuenta: q borrar una cuenta: listar cuentas por nombre/fecha: r
+        crear nueva cuenta: q borrar una cuenta:w salir: e
          */
         
 
