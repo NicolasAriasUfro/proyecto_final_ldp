@@ -3,7 +3,7 @@ use core::panic;
 use base64::{engine::general_purpose, Engine};
 
 use super::crypto_base::Criptografia;
-
+#[derive(Debug)]
 pub struct Entrada {
     pub(crate) id: u64,
     pub titulo:Option< String>,

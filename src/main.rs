@@ -4,7 +4,7 @@ use base64::{engine::general_purpose, Engine};
 use controlador::manipular_info::crypto_base::crear_nonce;
 
 use crate::controlador::manipular_info::{crypto_base::{hash_contra_maestra, derivar_llave}, info_almacenada::recrear_nonce};
-
+use crate::controlador::manipular_info::info_almacenada::Entrada;
 
 
 mod clipboard_generic;
@@ -26,7 +26,7 @@ fn main() {
     }
     
     controller_sql::set_database();
-
+    test_nico();
     let clave="contra".to_owned();
     let mut sal=[0u8;16];
     let mut llave=[0u8;32];
@@ -35,6 +35,23 @@ fn main() {
     println!("key={:?}\n key_hash={:?}",llave,hash_contra_maestra(&clave.as_bytes(), &sal));
     assert_ne!(hash_contra_maestra(&clave.as_bytes(), &sal),llave);
     assert_eq!(hash_clave,hash_contra_maestra(&clave.as_bytes(), &sal));
+
+}
+fn test_nico(){
+    let cuenta_1:Entrada = Entrada::new_creado(
+        Some(String::from("Codeforces")),
+        "nico_arias".parse().unwrap(),
+        "asd24355##".parse().unwrap(),
+        [0,0,0,0,00,0,0,0,0,0,0,1],
+        0,
+        Some(String::from("https://codeforces.com/"))
+    );
+    print!("mdg 2");
+    let error = controller_sql::agregar_cuenta(&cuenta_1);
+
+    println!("{:#?}",error);
+    println!("{:?}", controller_sql::listar_cuentas());
+
 
 }
 

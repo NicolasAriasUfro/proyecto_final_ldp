@@ -10,13 +10,21 @@ pub fn set_database() -> Result<()> {
             title         TEXT,
             user_name     TEXT NOT NULL,
             hash_password TEXT NOT NULL,
+            nonce         TEXT NOT NULL,
             url           TEXT,
-            desc_password TEXT NOT NULL
+            desc_password TEXT
         )",
         params![],
     )?;
-    Ok(())
     //TODO: agregar tabla que verifique la contraseña usada para entrar al programa.
+
+    conn.execute(
+        " ALTER TABLE cuentas ADD nonce TEXT",
+        params![])?;
+    conn.execute(
+        " ALTER TABLE cuentas ADD fecha TEXT",
+        params![])?;
+    Ok(())
 }
 
 pub fn create_column() {}
@@ -37,18 +45,21 @@ pub fn delete_column() {}
 
 
 pub fn agregar_cuenta(cuenta:&Entrada) -> Result<()>{
+    println!("msg 3");
+
     let conn = Connection::open("database.db")?;
     conn.execute(
-        "INSERT INTO cuentas (title,user_name,hash_password,url)
-            Values(?1,?2,?3,?4)",
-        (&cuenta.titulo,&cuenta.nombre_usuario,&cuenta.contrasena,&cuenta.url)
+        "INSERT INTO cuentas (title,user_name,hash_password,nonce,url,fecha)
+            Values(?1,?2,?3,?4,?5,?6)",
+        (&cuenta.titulo,&cuenta.nombre_usuario,&cuenta.contrasena,&cuenta.nonce,&cuenta.url,&cuenta.fecha_creacion)
     )?;
+    println!("msg 1");
     Ok(())
 }
 pub fn listar_cuentas()-> Result<()>{
     let conn = Connection::open("database.db")?;
     let mut stmt = conn.prepare(
-        "SELECT id, title, user_name, hash_password, url, desc_password from cuentas")?;
+        "SELECT id, title, user_name, hash_password, nonce, fecha, url, desc_password from cuentas")?;
 
     let cuentas_rows = stmt.query_map([],|row|{
         Ok(Entrada::new_desde_bd(
@@ -56,12 +67,17 @@ pub fn listar_cuentas()-> Result<()>{
             row.get(1)?,
             row.get(2)?,
             row.get(3)?,
-            [0,0,0,0,0,0,0,0,0,0,0,0], //Todo revisar el correcto funcionamiento del nonce
-            5,
-            row.get(4)?
+            row.get(4)?,
+            row.get(5)?,
+            row.get(6)?
         )
         )
     })?;//ver formas de devolver cuentas_row para ser usada por panel
+    for cuenta in cuentas_rows{
+        let cuenta = cuenta?;
+        println!("{:#?}",cuenta)
+    }
+
     Ok(())
 
 }
