@@ -59,10 +59,7 @@ impl App {
 
     }
 
-    pub fn sort_by_date() {
-        todo!();
-    }
-    pub fn sort_by_title() {
+    fn sort_by_title() {
         todo!();
     }
 
