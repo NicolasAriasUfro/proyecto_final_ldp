@@ -5,12 +5,12 @@ use base64::{engine::general_purpose, Engine};
 use super::crypto_base::Criptografia;
 
 pub struct Entrada {
-    id: u64,
+    pub(crate) id: u64,
     pub titulo:Option< String>,
     pub nombre_usuario: String,
     pub contrasena: String,
-    nonce: [u8; 12],
-    fecha_creacion: u64,
+    pub(crate) nonce: [u8; 12],
+    pub(crate) fecha_creacion: u64,
     pub url: Option<String>,
 }
 
