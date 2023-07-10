@@ -9,7 +9,7 @@ use crate::controlador::manipular_info::{crypto_base::{hash_contra_maestra, deri
 
 mod clipboard_generic;
 mod panel;
-mod ejemplo_sql;
+mod controller_sql;
 mod controlador;
 
 fn main() {
@@ -25,7 +25,8 @@ fn main() {
         }
     }
     
-    ejemplo_sql::test_3();
+    controller_sql::set_database();
+
     let clave="contra".to_owned();
     let mut sal=[0u8;16];
     let mut llave=[0u8;32];
