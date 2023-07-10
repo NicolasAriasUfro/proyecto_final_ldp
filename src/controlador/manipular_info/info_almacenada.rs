@@ -6,12 +6,12 @@ use super::crypto_base::Criptografia;
 
 pub struct Entrada {
     id: u64,
-    titulo:Option< String>,
-    nombre_usuario: String,
-    contrasena: String,
+    pub titulo:Option< String>,
+    pub nombre_usuario: String,
+    pub contrasena: String,
     nonce: [u8; 12],
     fecha_creacion: u64,
-    url: Option<String>,
+    pub url: Option<String>,
 }
 
 impl Entrada {
