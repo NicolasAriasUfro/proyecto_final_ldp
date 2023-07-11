@@ -24,7 +24,7 @@ fn main() {
 
         }
     }
-    //test_panel();
+    test_panel();
     controller_sql::set_database();
     test_nico();    
     controller_sql::agregar_cuenta(&Entrada::new_creado(None,"twitter".to_owned(),"12345678".to_owned(),*b"abcdefghijkl",None)).unwrap();
@@ -81,5 +81,6 @@ fn reconstruir_nonce(){
 }
 
 fn test_panel(){
-    panel::App::panel_login();
+    //panel::App::panel_login();
+    panel::panel_main();
 }
