@@ -104,7 +104,7 @@ fn vista_for_selection() -> std::io::Result<()> {
         }
         None => {
                     println!("Regresando");
-                    std::process::exit(0);
+                    panel_main();
                 }
     }
     Ok(())
