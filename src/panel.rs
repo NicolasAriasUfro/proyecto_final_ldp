@@ -26,8 +26,11 @@ pub fn panel_register() {
 
 //panel principal de la aplicación, muestra todas las cuentas almacenadas con su titulo (si hay), user, url(si hay) y password
 pub fn panel_main() {
-    seleccionar();
-    todo!()
+    loop{
+        seleccionar();
+    }
+
+    
 
     //el panel main debe manejar alguna estructura de datos que contenga las cuentas, este obviamente debe ser poblado mediante instrucciones
     //SELECT , luego se recorre toda la estructura de datos y se imprimen las cuentas con su numero
@@ -40,6 +43,7 @@ pub fn panel_main() {
     // 3. Listar todas las cuentas por nombre/fecha (cambia con cada seleccion)
     // 4. Salir
     // 5. poder elegir una cuenta para mostrar su información
+    std::process::exit(0);
 }
 
 fn sort_by_title() {
@@ -102,8 +106,7 @@ fn vista_for_selection() -> std::io::Result<()> {
             println!("todo");
         }
         None => {
-                    println!("Regresando");
-                    panel_main();
+                    println!("Regresando")
                 }
     }
     Ok(())
