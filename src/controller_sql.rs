@@ -4,6 +4,7 @@ use crate::controlador::manipular_info::info_almacenada::*;
 pub fn set_database() -> Result<()> {
     let conn = Connection::open("database.db")?;
     //crear la tabla de cuentas
+    conn.execute("drop table cuentas",params![])?;
     conn.execute(
         "CREATE TABLE IF NOT EXISTS cuentas (
             id            INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -11,55 +12,67 @@ pub fn set_database() -> Result<()> {
             user_name     TEXT NOT NULL,
             hash_password TEXT NOT NULL,
             nonce         TEXT NOT NULL,
-            url           TEXT,
-            desc_password TEXT
+            fecha         INTEGER,
+            url           TEXT
         )",
         params![],
     )?;
-    //TODO: agregar tabla que verifique la contraseña usada para entrar al programa.
 
+    /*
     conn.execute(
         " ALTER TABLE cuentas ADD nonce TEXT",
         params![])?;
+    */
+    /*
     conn.execute(
         " ALTER TABLE cuentas ADD fecha TEXT",
         params![])?;
+    */
     Ok(())
 }
+///Recibe una cuenta que ya tenga asignado su id,
+/// y actualiza todos los demás campos en la base de datos.
+fn actualizar_cuenta(cuenta: &Entrada) -> Result<()> {
+    let conn = Connection::open("database.db")?;
+    conn.execute(
+        "UPDATE cuentas SET
+        title = ?2,
+        username = ?3,
+        hash_password = ?4,
+        nonce = ?5,
+        fecha = ?6,
+        url = ?7,
+        WHERE id = ?1",
+        params![&cuenta.id, &cuenta.titulo, &cuenta.nombre_usuario,&cuenta.contrasena,
+        &cuenta.nonce, &cuenta.fecha_creacion,&cuenta.url],
+    )?;
+    Ok(())
+}
+///Recibe una cuenta y según su id elimina la cuenta de la base de datos.
+/// el id es asignado cuando se crea la Entrada a partir de la base de datos
+pub fn eliminar_cuenta(cuenta:&Entrada) -> Result<()>{
+    let conn = Connection::open("database.db")?;
+    conn.execute("DELETE FROM cuentas WHERE id = ?1", params![cuenta.id])?;
+    Ok(())
 
-pub fn create_column() {}
-
-pub fn select_column() {
-    todo!();
 }
 
-
-
-pub fn sql_instruction_get_password() {
-    
-}
-
-pub fn update_column() {}
-
-pub fn delete_column() {}
-
-
+/// Ingresa una cuenta a la base de datos, donde se le asigna un id automáticamente
+/// La cuenta debe tener cifrada el atributo contraseña
 pub fn agregar_cuenta(cuenta:&Entrada) -> Result<()>{
-    println!("msg 3");
 
     let conn = Connection::open("database.db")?;
     conn.execute(
-        "INSERT INTO cuentas (title,user_name,hash_password,nonce,url,fecha)
+        "INSERT INTO cuentas (title,user_name,hash_password,nonce,fecha,url)
             Values(?1,?2,?3,?4,?5,?6)",
-        (&cuenta.titulo,&cuenta.nombre_usuario,&cuenta.contrasena,&cuenta.nonce,&cuenta.url,&cuenta.fecha_creacion)
+        (&cuenta.titulo,&cuenta.nombre_usuario,&cuenta.contrasena,&cuenta.nonce,&cuenta.fecha_creacion,&cuenta.url)
     )?;
-    println!("msg 1");
     Ok(())
 }
 pub fn listar_cuentas()-> Result<()>{
     let conn = Connection::open("database.db")?;
     let mut stmt = conn.prepare(
-        "SELECT id, title, user_name, hash_password, nonce, fecha, url, desc_password from cuentas")?;
+        "SELECT id, title, user_name, hash_password, nonce, fecha, url from cuentas")?;
 
     let cuentas_rows = stmt.query_map([],|row|{
         Ok(Entrada::new_desde_bd(
