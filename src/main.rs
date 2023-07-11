@@ -24,10 +24,10 @@ fn main() {
 
         }
     }
-    
+    //test_panel();
     controller_sql::set_database();
     test_nico();    
-    //controller_sql::agregar_cuenta(&Entrada::new_creado(None,"twitter".to_owned(),"12345678".to_owned(),*b"abcdefghijkl",None)).unwrap();
+    controller_sql::agregar_cuenta(&Entrada::new_creado(None,"twitter".to_owned(),"12345678".to_owned(),*b"abcdefghijkl",None)).unwrap();
 
     let clave="contra".to_owned();
     let mut sal=[0u8;16];
@@ -78,4 +78,8 @@ fn reconstruir_nonce(){
     let decoded=recrear_nonce(nonce_b64);
     println!("decoded: {:?}",decoded);
     assert_eq!(nonce,decoded);
+}
+
+fn test_panel(){
+    panel::App::panel_login();
 }

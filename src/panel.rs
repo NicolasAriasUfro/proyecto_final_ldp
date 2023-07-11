@@ -1,14 +1,15 @@
 use std::slice::ChunksExact;
 
-use dialoguer::Password;
+use dialoguer::{theme::ColorfulTheme, FuzzySelect, Password};
 
 use crate::controlador::*;
 pub struct App {
 }
 
 impl App {
+
     pub fn panel_login() {
-        let Password = password_validator();
+        let password = "12345678".to_string(); //for testing
 
         let password = Password::new()
             .with_prompt("Ingrese su contraseña:")
@@ -32,7 +33,25 @@ impl App {
     //panel principal de la aplicación, muestra todas las cuentas almacenadas con su titulo (si hay), user, url(si hay) y password
     pub fn panel_main() {
         let default_choice = false;
-        todo!();
+
+        // central variables
+        let selections = &[""]; //este coso debe ser llenado con una lista de las opciones que se pueden seleccionar
+        
+
+        
+        let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
+        .with_prompt("Pick your flavor")
+        .default(0)
+        .items(&selections[..])
+        .interact()
+        .unwrap();
+
+    println!("Enjoy your {}!", selections[selection]);
+
+        todo!()
+
+
+
         //el panel main debe manejar alguna estructura de datos que contenga las cuentas, este obviamente debe ser poblado mediante instrucciones
         //SELECT , luego se recorre toda la estructura de datos y se imprimen las cuentas con su numero
         // el panel en la zona inferior debe manejar los siguientes comandos:
@@ -45,22 +64,33 @@ impl App {
         // 4. Salir
         // 5. poder elegir una cuenta para mostrar su información
 
-        /*
-        Ejemplo de vista del panel
-        CUENTAS:
-        1 titulo   user         url                       password 
-        2 google   juan         https://www.google.com    ********
-        3          a@gmail.com                            **************
+        
 
-        crear nueva cuenta: q borrar una cuenta:w salir: e
-         */
+        
         
 
 
     }
 
     fn sort_by_title() {
-        todo!();
+        todo!()
+    }
+
+    fn vista_for_selection() {
+        /*
+        Ejemplo de vista del panel
+        CUENTAS:
+        1 titulo   user         url                       password 
+        2 google   juan         https://www.google.com    ********
+        3          a@gmail.com                            ********
+
+        crear nueva cuenta: q borrar una cuenta:w salir: e
+         */            
+        
+    }
+
+    fn vista_for_delete(){
+        
     }
 
     // este panel debe mostrar el contenido de la contraseña una vez se escoja una
