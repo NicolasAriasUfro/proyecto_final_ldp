@@ -90,13 +90,13 @@ fn vista_for_selection() -> std::io::Result<()> {
     
     let default_choice_for_sort = false;
 
-    println!("Titulo            usuario          Contraseña           Url           Fecha");
 
     let cuentas = vec![
         "Fortnite              daddyisues             null            23/07/2023",
     ];
 
     let selection = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("Titulo                    usuario                 Contraseña                  Url                 Fecha")
         .items(&cuentas)
         .default(0)
         .interact_on_opt(&Term::stderr())?;
