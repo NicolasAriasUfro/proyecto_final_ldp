@@ -5,6 +5,9 @@ use dialoguer::{console::Term, theme::ColorfulTheme, FuzzySelect, Password, Sele
 use crate::controlador::*;
 use manipular_info::info_almacenada::*;
 
+use crate::controlador::manipular_info::info_almacenada::Entrada;
+use crate::controller_sql;
+
 pub fn panel_login() {
     let password = "12345678".to_string(); //for testing
 
@@ -21,6 +24,7 @@ pub fn panel_register() {
     //
     // si esta ok println!("contraseña creada con exito");
     // se dirige al panel_main
+
     todo!()
 }
 
@@ -82,27 +86,28 @@ fn vista_for_selection() -> std::io::Result<()> {
     let default_choice_for_sort = false;
 
 
-    
-    let mut cuentas = Vec::new();
-    let id: String = "1".to_string();
-    let title: String = "Fornite".to_string();
-    let user: String = "abzassssdsdsds".to_string();
-    let url: String = "www.epicgames.com".to_string();
-    let password: String= "*********".to_string();
-    let date: String = "23/07/2023".to_string();
-
-    let string_pusher = format!("{:<2}   {:<8}          {:<8}      {:<8}   {:<8}           {:<8}  ", id, title, user, url, password, date);
-    cuentas.push(string_pusher);
+    let mut cuentas_con_formato = Vec::new();
+    let mut lista_cuentas:Vec<Entrada> = controller_sql::lista_cuentas();
+    for i in 0..lista_cuentas.len(){
+        let string_pusher_2 = format!("{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
+                                      lista_cuentas[i].id,
+                                      lista_cuentas[i].titulo?,
+                                      lista_cuentas[i].nombre_usuario,
+                                      lista_cuentas[i].contrasena,
+                                      lista_cuentas[i].fecha_creacion,
+                                      lista_cuentas[i].url?);
+        cuentas_con_formato.push(string_pusher_2);
+    }
 
     let selection = Select::with_theme(&ColorfulTheme::default())
-        .with_prompt("id   Titulo            Usuario             Url                 Contraseña          fecha   \n\n  Para mas detalles selecione")
-        .items(&cuentas)
+        .with_prompt("Titulo            Usuario             Url                 Contraseña          fecha   ")
+        .items(&cuentas_con_formato)
         .default(0)
         .interact_on_opt(&Term::stderr())?;
 
     match selection {
         Some(index) => {
-            vista_for_contenido(cuentas[index].clone());
+            println!("todo");
         }
         None => {
             println!("Regresando")
@@ -125,7 +130,7 @@ fn vista_for_contenido(cuenta: String) {
     todo!()
 
 
-    
+
     //esta funcion muestra el contenido de la cuenta
     //debe permitir volver atras,
     //formato de ejemplo:
