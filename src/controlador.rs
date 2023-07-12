@@ -28,7 +28,7 @@ pub fn password_validator(password: &str) {//-> bool {
 pub fn load_app() {
     if existe_la_base_de_datos(){
         loop{
-            panel_loader();
+            panel_loader().unwrap();
         }
     }else{
         panel_register();

@@ -5,18 +5,16 @@ use crate::controlador::manipular_info::crypto_base;
 use crate::controlador::manipular_info::crypto_base::Criptografia;
 use crate::controlador::manipular_info::info_almacenada;
 
-
 pub fn existe_la_base_de_datos() -> bool {
     let ruta_archivo = "./database.db";
     fs::metadata(ruta_archivo).is_ok()
 }
 
-
 pub fn set_database() -> Result<()> {
     let conn = Connection::open("database.db")?;
     //crear la tabla de cuentas
-    conn.execute("drop table if exists cuentas",params![])?;
-    conn.execute("drop table if exists master", params![])?;
+    //conn.execute("drop table if exists cuentas",params![])?;
+    //conn.execute("drop table if exists master", params![])?;
     conn.execute(
         "CREATE TABLE IF NOT EXISTS cuentas (
             id            INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,6 +37,7 @@ pub fn set_database() -> Result<()> {
     Ok(())
 }
 
+/* 
 fn actualizar_cuenta(cuenta: &Entrada,cifrador:&Criptografia) -> Result<()> {
     let contra_cifrada = &cuenta.cifrar_contra(cifrador);
     let conn = Connection::open("database.db")?;
@@ -56,6 +55,7 @@ fn actualizar_cuenta(cuenta: &Entrada,cifrador:&Criptografia) -> Result<()> {
     )?;
     Ok(())
 }
+*/
 ///Recibe una cuenta y según su id elimina la cuenta de la base de datos.
 /// el id es asignado cuando se crea la Entrada a partir de la base de datos
 pub fn eliminar_cuenta(cuenta:&Entrada) -> Result<()>{
@@ -81,10 +81,7 @@ pub fn agregar_cuenta(cuenta:&Entrada,cifrador:&Criptografia) -> Result<()>{
 }
 
 
-///La función consulta por las cuentas que están en la base de datos,
-/// y la devuelve con todos sus parámetros.
-/// # return
-/// Ok(Vec<Entrada>)
+
 pub fn listar_cuentas(cifrador: &Criptografia)-> Result<Vec<Entrada>,Error>{
     let mut vec_cuentas:Vec<Entrada> = vec![];
     let conn = Connection::open("database.db")?;
@@ -136,8 +133,6 @@ pub fn recuperar_datos_master()->Result<(Vec<u8>,[u8;16]),Error>{
     }
 }
 
-
-
 pub fn agregar_master(hash_master:&Vec<u8>,sal:&[u8;16]) -> Result<()>{
 
     let conn = Connection::open("database.db")?;
@@ -148,8 +143,6 @@ pub fn agregar_master(hash_master:&Vec<u8>,sal:&[u8;16]) -> Result<()>{
     )?;
     Ok(())
 }
-
-
 
 struct MasterData{
     hash:Vec<u8>,

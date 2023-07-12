@@ -141,7 +141,6 @@ impl NodoEntrada {
             Some(valor)=>valor.agregar_por_fecha(agregado),
             None=>*nodo_objetivo=Some(Box::new(NodoEntrada::new(agregado)))
         }
-        
     }
 
     pub fn agregar_por_usuario(&mut self,agregado:Entrada){
