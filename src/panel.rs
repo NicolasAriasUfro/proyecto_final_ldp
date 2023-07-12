@@ -6,7 +6,6 @@ use dialoguer::{
 };
 use manipular_info::info_almacenada::*;
 use std::slice::ChunksExact;
-use crate::controlador::manipular_info::crypto_base::Criptografia;
 
 pub fn panel_loader() -> std::io::Result<()> {
     let selection = Select::with_theme(&ColorfulTheme::default())
@@ -18,7 +17,7 @@ pub fn panel_loader() -> std::io::Result<()> {
     match selection {
         Some(index) => {
             if index == 0 {
-                panel_login()
+                login()
             }
         }
         None => {
@@ -28,7 +27,7 @@ pub fn panel_loader() -> std::io::Result<()> {
     }
     Ok(())
 }
-pub fn panel_login() {
+fn login() {
     let contraseña_maestra = "12345678".to_string(); //for testing
 
     let password = Password::new()
@@ -39,7 +38,7 @@ pub fn panel_login() {
 
 // panel para crear la contraseña si la base de datos no existe, luego almacenarla en la base de datos y finalmente
 pub fn panel_register() {
-    let password = Password::with_theme(&ColorfulTheme::default())
+    let contra_maestra = Password::with_theme(&ColorfulTheme::default())
         .with_prompt(
             "Bienvenido a el mejor gestor de contraseñas en rust\n
              Primero, debes generar una contraseña maestra\n
@@ -58,12 +57,7 @@ pub fn panel_register() {
         })
         .interact()
         .unwrap();
-    //
-
-
-
-
-
+        
 }
 
 //panel principal de la aplicación, muestra todas las cuentas almacenadas con su titulo (si hay), user, url(si hay) y password
@@ -130,10 +124,7 @@ fn vista_for_selection() -> std::io::Result<()> {
     let default_choice_for_sort = false;
 
     let mut cuentas_con_formato = Vec::new();
-
-    let llave_temporal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32];
-    let cifrador_temporal = Criptografia::new(&llave_temporal);
-    let mut lista_cuentas: Vec<Entrada> = controller_sql::listar_cuentas(&cifrador_temporal).unwrap();
+    let mut lista_cuentas: Vec<Entrada> = controller_sql::listar_cuentas().unwrap();
     for i in 0..lista_cuentas.len() {
         let string_pusher_2 = format!(
             "{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
@@ -147,7 +138,7 @@ fn vista_for_selection() -> std::io::Result<()> {
         cuentas_con_formato.push(string_pusher_2);
     }
 
-    let selection = Select::with_theme(&ColorfulTheme::default())
+    let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
         .with_prompt("Id       Titulo     Usuario    Contraseña fecha      Url     ")
         .items(&cuentas_con_formato)
         .default(0)
@@ -155,7 +146,7 @@ fn vista_for_selection() -> std::io::Result<()> {
 
     match selection {
         Some(index) => {
-            println!("todo");
+            cuenta_detallada(index);
         }
         None => {
             println!("Regresando")
@@ -180,7 +171,7 @@ fn vista_for_create()-> std::io::Result<()>{
         .interact_text()
         .unwrap();
     let password = password_validator();
-    Entrada::new_creado(title, user, password,url);
+    Entrada::new_creado(title, user, password, url);
     Ok(())
 }
 
@@ -188,9 +179,7 @@ fn vista_for_delete() -> std::io::Result<()> {
     let default_choice_for_sort = false;
 
     let mut cuentas_con_formato = Vec::new();
-    let llave_temporal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32];
-    let cifrador_temporal = Criptografia::new(&llave_temporal);
-    let mut lista_cuentas: Vec<Entrada> = controller_sql::listar_cuentas(&cifrador_temporal).unwrap();
+    let mut lista_cuentas: Vec<Entrada> = controller_sql::listar_cuentas().unwrap();
     for i in 0..lista_cuentas.len() {
         let mut string_pusher_2 = format!(
             "{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
@@ -234,6 +223,6 @@ fn vista_for_update() {
     todo!()
 }
 
-fn vista_for_contenido(cuenta: String) {
-    todo!()
+fn cuenta_detallada(index: usize) {
+    
 }
