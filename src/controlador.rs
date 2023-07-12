@@ -23,7 +23,7 @@ pub fn password_validator(password: &str) {//-> bool {
     .unwrap();
 }
 */
-/* 
+
 
 pub fn load_app() {
     if existe_la_base_de_datos(){
@@ -34,7 +34,7 @@ pub fn load_app() {
     }
 }
 
-*/
+
 
 //funcion temporal para validar la contraseña
 pub fn password_validator() -> String {

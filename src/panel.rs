@@ -1,10 +1,7 @@
 use std::slice::ChunksExact;
-
 use dialoguer::{console::Term, theme::ColorfulTheme, FuzzySelect, Password, Select, Input, Confirm};
-
 use crate::controlador::*;
 use manipular_info::info_almacenada::*;
-
 use crate::controlador::manipular_info::info_almacenada::Entrada;
 use crate::controller_sql;
 
@@ -40,8 +37,8 @@ pub fn panel_register() {
     let password = Password::with_theme(&ColorfulTheme::default())
         .with_prompt(
             "Bienvenido a el mejor gestor de contraseñas en rust\n
-                      Primero, debes generar una contraseña maestra\n
-                      AVISO: SI OLVIDAS ESTA CONTRASEÑA, NO PODRAS RECUPERAR TU BASE DE DATOS",
+             Primero, debes generar una contraseña maestra\n
+             AVISO: SI OLVIDAS ESTA CONTRASEÑA, NO PODRAS RECUPERAR TU BASE DE DATOS",
         )
         .with_confirmation(
             "Repite la contraseña",
@@ -66,9 +63,6 @@ pub fn panel_main() {
 }
 
 fn sort_by_title() {
-    
-    
-    
     
     todo!()
 }
@@ -159,11 +153,23 @@ fn vista_for_selection() -> std::io::Result<()> {
 }
 
 fn vista_for_create() {
-    let mail: String = Input::with_theme(&ColorfulTheme::default())
+    let title: String = Input::with_theme(&ColorfulTheme::default())
         .with_prompt("ingresa el titulo (presione enter))")
         .default("".to_string())
         .interact_text()
         .unwrap();
+    let user: String = Input::with_theme(&ColorfulTheme::default())
+    .with_prompt("ingresa el user (obligatorio) (presione enter))")
+    .interact_text()
+    .unwrap();
+    let url: String = Input::with_theme(&ColorfulTheme::default())
+    .with_prompt("ingresa la url (presione enter))")
+    .default("".to_string())
+    .interact_text()
+    .unwrap();
+    let password = password_validator();
+    
+
 }
 
 fn vista_for_delete() -> std::io::Result<()>{
@@ -211,21 +217,9 @@ fn vista_for_update() {
     todo!()
 }
 
-// este panel debe mostrar el contenido de la contraseña una vez se escoja una
 
 fn vista_for_contenido(cuenta: String) {
     todo!()
 
-    //esta funcion muestra el contenido de la cuenta
-    //debe permitir volver atras,
-    //formato de ejemplo:
-    //cuenta
-    //Title:  // user  // url // password(*******)
-    //volver atras: A mostrar contraseña: D Copiar contraseña: C
 
-    /*
-    Ejemplo de muestra de contraseña
-    //Title:  // user  // url // password(12345678)
-    //volver atras: A Ocultar contraseña: D Copiar contraseña: C
-     */
 }
