@@ -47,8 +47,8 @@ fn login() {
         .interact()
         .expect("Error al solicitar la contraseña, contraseña incorrecta");
     if comprobar_contra_maestra(&password, sal, hash_almacenado) {
-        let criptografia = iniciar_base_de_datos_existente(&password, &sal);
-        panel_main();
+        let cifrador = iniciar_base_de_datos_existente(&password, &sal);
+        panel_main(cifrador);
     } else {
         println!("error")
     }
@@ -82,9 +82,9 @@ pub fn panel_register() {
 }
 
 //panel principal de la aplicación, muestra todas las cuentas almacenadas con su titulo (si hay), user, url(si hay) y password
-pub fn panel_main() {
+pub fn panel_main(cifrador: Criptografia) {
     loop {
-        seleccionar().unwrap();
+        seleccionar(&cifrador).unwrap();
     }
 }
 
@@ -92,7 +92,7 @@ fn sort_by_title() {
     todo!()
 }
 
-pub fn seleccionar() -> std::io::Result<()> {
+pub fn seleccionar(&cifrador: &Criptografia) -> std::io::Result<()> {
     let items = vec![
         "Ver cuentas",
         "Crear cuenta nueva",
@@ -109,13 +109,13 @@ pub fn seleccionar() -> std::io::Result<()> {
     match selection {
         Some(index) => {
             if index == 0 {
-                vista_for_selection()?
+                vista_for_selection(&cifrador)?
             }
             if index == 1 {
-                vista_for_create()?
+                vista_for_create(&cifrador)?
             }
             if index == 2 {
-                vista_for_delete()?
+                vista_for_delete(&cifrador)?
             }
             if index == 3 {
                 instrucciones()
@@ -141,17 +141,13 @@ fn instrucciones() {
         .unwrap();
 }
 
-fn vista_for_selection() -> std::io::Result<()> {
+fn vista_for_selection(&cifrador: &Criptografia) -> std::io::Result<()> {
     let default_choice_for_sort = false;
 
     let mut cuentas_con_formato = Vec::new();
-    let llave_temporal: [u8; 32] = [
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-        26, 27, 28, 29, 30, 31, 32,
-    ];
-    let cifrador_temporal = Criptografia::new(&llave_temporal);
+
     let mut lista_cuentas: Vec<Entrada> =
-        controller_sql::listar_cuentas(&cifrador_temporal).unwrap();
+        controller_sql::listar_cuentas(&cifrador).unwrap();
     for i in 0..lista_cuentas.len() {
         let string_pusher_2 = format!(
             "{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
@@ -182,7 +178,7 @@ fn vista_for_selection() -> std::io::Result<()> {
     Ok(())
 }
 
-fn vista_for_create() -> std::io::Result<()> {
+fn vista_for_create(cifrador: &Criptografia) -> std::io::Result<()> {
     let title: String = Input::with_theme(&ColorfulTheme::default())
         .with_prompt("ingresa el titulo (presione enter))")
         .default("".to_string())
@@ -199,26 +195,17 @@ fn vista_for_create() -> std::io::Result<()> {
         .unwrap();
     let password = password_validator();
     let cuenta_a_subir = Entrada::new_creado(title, user, password, url);
-    let llave_temporal: [u8; 32] = [
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-        26, 27, 28, 29, 30, 31, 32,
-    ];
-    let cifrador_temporal = Criptografia::new(&llave_temporal);
-    controller_sql::agregar_cuenta(&cuenta_a_subir, &cifrador_temporal).unwrap();
+    controller_sql::agregar_cuenta(&cuenta_a_subir, &cifrador).unwrap();
     Ok(())
 }
 
-fn vista_for_delete() -> std::io::Result<()> {
+fn vista_for_delete(cifrador: &Criptografia) -> std::io::Result<()> {
     let default_choice_for_sort = false;
 
     let mut cuentas_con_formato = Vec::new();
-    let llave_temporal: [u8; 32] = [
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-        26, 27, 28, 29, 30, 31, 32,
-    ];
-    let cifrador_temporal = Criptografia::new(&llave_temporal);
+
     let mut lista_cuentas: Vec<Entrada> =
-        controller_sql::listar_cuentas(&cifrador_temporal).unwrap();
+        controller_sql::listar_cuentas(&cifrador).unwrap();
     for i in 0..lista_cuentas.len() {
         let mut string_pusher_2 = format!(
             "{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
@@ -260,11 +247,6 @@ fn vista_for_delete() -> std::io::Result<()> {
 
 fn cuenta_detallada(cuenta: &Entrada) -> std::io::Result<()> {
     let mut cuenta_con_formato = Vec::new();
-    let llave_temporal: [u8; 32] = [
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-        26, 27, 28, 29, 30, 31, 32,
-    ];
-    let cifrador_temporal = Criptografia::new(&llave_temporal);
 
     let string_pusher_2 = format!(
         "{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
