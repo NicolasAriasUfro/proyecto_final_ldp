@@ -174,7 +174,10 @@ fn vista_for_create()-> std::io::Result<()>{
         .interact_text()
         .unwrap();
     let password = password_validator();
-    Entrada::new_creado(title, user, password, url);
+    let cuenta_a_subir = Entrada::new_creado(title, user, password, url);
+    let llave_temporal: [u8; 32] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32];
+    let cifrador_temporal = Criptografia::new(&llave_temporal);
+    controller_sql::agregar_cuenta(&cuenta_a_subir,&cifrador_temporal);
     Ok(())
 }
 
