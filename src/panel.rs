@@ -202,7 +202,7 @@ fn vista_for_delete() -> std::io::Result<()> {
     }
 
 
-    let selection = Select::with_theme(&ColorfulTheme::default())
+    let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
         .with_prompt("Id       Titulo     Usuario    Contraseña fecha      Url     ")
         .items(&cuentas_con_formato)
         .default(0)
