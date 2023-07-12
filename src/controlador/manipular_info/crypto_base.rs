@@ -53,7 +53,6 @@ pub fn crear_sal()->[u8;16]{
     let mut salt=[0u8;16];
     raw_salt.decode_b64(&mut salt).unwrap();
     salt_out=salt.try_into().expect("no se pudo crear sal");
-    println!("[DEBUG sal={:?}]",salt_out);
     salt_out
 }
 

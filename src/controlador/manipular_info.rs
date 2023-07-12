@@ -20,7 +20,6 @@ pub fn iniciar_nueva_base_de_datos(contra_maestra:&String)->Criptografia{
         Err(_)=>panic!("no se pudo insertar datos de la llave maestra a la base de datos")
     }
 
-    
 
 }
 
