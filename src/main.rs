@@ -25,13 +25,18 @@ fn main() {
 
         }
     }
-    
-        test_panel();
-    
-    controller_sql::set_database();
-    test_nico();    
-    controller_sql::agregar_cuenta(&Entrada::new_creado(None,"twitter".to_owned(),"12345678".to_owned(),*b"abcdefghijkl",None)).unwrap();
 
+    //preconfigrar y poblar la base de datos
+    controller_sql::set_database();
+    poblar_base_de_datos();
+    //ejecutar el panel
+    test_panel();
+
+
+
+
+    controller_sql::agregar_cuenta(&Entrada::new_creado(None,"twitter".to_owned(),"12345678".to_owned(),*b"abcdefghijkl",None)).unwrap();
+    comprobar_contra();
     let clave="contra".to_owned();
     let mut sal=[0u8;16];
     let mut llave=[0u8;32];
@@ -42,22 +47,7 @@ fn main() {
     assert_eq!(hash_clave,hash_contra_maestra(&clave.as_bytes(), &sal));
 
 }
-fn test_nico(){
-    let cuenta_1:Entrada = Entrada::new_creado(
-        Some(String::from("Codeforces")),
-        "nico_arias".parse().unwrap(),
-        "asd24355##".parse().unwrap(),
-        [0,0,0,0,00,0,0,0,0,0,0,1],
-        Some(String::from("https://codeforces.com/"))
-    );
-    print!("mdg 2");
-    let error = controller_sql::agregar_cuenta(&cuenta_1);
 
-    println!("{:#?}",error);
-    println!("{:?}", controller_sql::listar_cuentas());
-
-
-}
 
 fn tests(){
     println!("testing.");
@@ -106,4 +96,35 @@ fn comprobar_contra(){
     let llave_recreada=derivar_llave(&clave_again.to_owned(), &par.1);
     assert_eq!(llave_recreada,llave);
     println!("llave original: {:?}\n llave recreada: {:?}",llave,llave_recreada);
+}
+fn poblar_base_de_datos(){
+    let cuenta_1:Entrada = Entrada::new_creado(
+        Some(String::from("Codeforces")),
+        "nico_arias".parse().unwrap(),
+        "asd24355##".parse().unwrap(),
+        [0,0,0,0,00,0,0,0,0,0,0,1],
+        Some(String::from("https://codeforces.com/"))
+    );
+    let cuenta_2:Entrada = Entrada::new_creado(
+        Some(String::from("youtube")),
+        "juega_german".parse().unwrap(),
+        "3333444244".parse().unwrap(),
+        [0,7,0,0,00,0,0,0,0,0,0,1],
+        Some(String::from("https://youtube.com"))
+    );
+    let cuenta_3:Entrada = Entrada::new_creado(
+        Some(String::from("facebook")),
+        "el_brayan".parse().unwrap(),
+        "Brayan_brayan".parse().unwrap(),
+        [0,99,0,0,80,0,0,0,0,0,0,1],
+        Some(String::from("https://facebook.com"))
+    );
+
+
+
+    controller_sql::agregar_cuenta(&cuenta_1);
+    controller_sql::agregar_cuenta(&cuenta_2);
+    controller_sql::agregar_cuenta(&cuenta_3);
+
+
 }
