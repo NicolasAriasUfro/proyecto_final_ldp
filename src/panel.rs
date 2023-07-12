@@ -99,7 +99,7 @@ fn vista_for_selection() -> std::io::Result<()> {
     }
 
     let selection = Select::with_theme(&ColorfulTheme::default())
-        .with_prompt("Titulo            Usuario             Url                 Contraseña          fecha   ")
+        .with_prompt("Id       Titulo     Usuario    Contraseña fecha      Url     ")
         .items(&cuentas_con_formato)
         .default(0)
         .interact_on_opt(&Term::stderr())?;
