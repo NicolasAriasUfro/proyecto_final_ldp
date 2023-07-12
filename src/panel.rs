@@ -219,9 +219,6 @@ fn vista_for_delete() -> std::io::Result<()> {
     Ok(())
 }
 
-fn vista_for_update() {
-    todo!()
-}
 
 fn cuenta_detallada(index: usize) {
     
