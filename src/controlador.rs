@@ -5,6 +5,7 @@ pub mod manipular_info;
 use crate::controller_sql;
 use crate::panel::panel_loader;
 use std::fs::File;
+use std::io;
 
 /* 
 
@@ -23,17 +24,9 @@ pub fn password_validator(password: &str) {//-> bool {
 }
 */
 
-pub fn load_app() ->    Result<(), io::Error> {
-    match File::open("database.db"){
-        Ok(file)=>{
-            controller_sql::set_database();
-            panel_loader();
-        },
-        Err(error) => Err(error),
-    }
-   
-    
-
+pub fn load_app() {
+    controller_sql::set_database();
+    panel_loader();
 }
 //funcion temporal para validar la contraseña
 pub fn password_validator() -> String {

@@ -86,7 +86,7 @@ pub fn seleccionar() -> std::io::Result<()> {
                 vista_for_create()
             }
             if index == 2 {
-                vista_for_delete()
+                vista_for_delete()?
             }
             if index == 4{
                 instrucciones()

@@ -14,7 +14,7 @@ mod controller_sql;
 mod controlador;
 
 fn main() {
-    
+
     for argument in env::args(){
         match argument.as_str(){
             "--test"=>{
@@ -28,7 +28,7 @@ fn main() {
 
     //preconfigrar y poblar la base de datos
     controller_sql::set_database();
-    poblar_base_de_datos();
+    //poblar_base_de_datos();
     //ejecutar el panel
     test_panel();
 
