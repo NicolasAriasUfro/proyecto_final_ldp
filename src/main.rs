@@ -26,8 +26,6 @@ fn main() {
         }
     }
 
-    //preconfigrar y poblar la base de datos
-    controller_sql::set_database();
     //poblar_base_de_datos();
     //ejecutar el panel
     test_panel();
