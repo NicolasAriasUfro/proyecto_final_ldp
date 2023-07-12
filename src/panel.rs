@@ -1,9 +1,11 @@
-use std::slice::ChunksExact;
-use dialoguer::{console::Term, theme::ColorfulTheme, FuzzySelect, Password, Select, Input, Confirm};
-use crate::controlador::*;
-use manipular_info::info_almacenada::*;
 use crate::controlador::manipular_info::info_almacenada::Entrada;
+use crate::controlador::*;
 use crate::controller_sql;
+use dialoguer::{
+    console::Term, theme::ColorfulTheme, Confirm, FuzzySelect, Input, Password, Select,
+};
+use manipular_info::info_almacenada::*;
+use std::slice::ChunksExact;
 
 pub fn panel_loader() -> std::io::Result<()> {
     let selection = Select::with_theme(&ColorfulTheme::default())
@@ -13,9 +15,11 @@ pub fn panel_loader() -> std::io::Result<()> {
         .interact_on_opt(&Term::stderr())?;
 
     match selection {
-        Some(index) => if index == 0 {
-            panel_login()
-        },
+        Some(index) => {
+            if index == 0 {
+                panel_login()
+            }
+        }
         None => {
             println!("Saliendo");
             std::process::exit(0);
@@ -63,7 +67,6 @@ pub fn panel_main() {
 }
 
 fn sort_by_title() {
-    
     todo!()
 }
 
@@ -87,7 +90,7 @@ pub fn seleccionar() -> std::io::Result<()> {
                 vista_for_selection()?
             }
             if index == 1 {
-                vista_for_create()
+                vista_for_create()?
             }
             if index == 2 {
                 vista_for_delete()?
@@ -114,7 +117,6 @@ fn instrucciones() {
         .default("".to_string())
         .interact_text()
         .unwrap();
-
 }
 
 fn vista_for_selection() -> std::io::Result<()> {
@@ -152,40 +154,41 @@ fn vista_for_selection() -> std::io::Result<()> {
     Ok(())
 }
 
-fn vista_for_create() {
+fn vista_for_create()-> std::io::Result<()>{
     let title: String = Input::with_theme(&ColorfulTheme::default())
         .with_prompt("ingresa el titulo (presione enter))")
         .default("".to_string())
         .interact_text()
         .unwrap();
     let user: String = Input::with_theme(&ColorfulTheme::default())
-    .with_prompt("ingresa el user (obligatorio) (presione enter))")
-    .interact_text()
-    .unwrap();
+        .with_prompt("ingresa el user (obligatorio) (presione enter))")
+        .interact_text()
+        .unwrap();
     let url: String = Input::with_theme(&ColorfulTheme::default())
-    .with_prompt("ingresa la url (presione enter))")
-    .default("".to_string())
-    .interact_text()
-    .unwrap();
+        .with_prompt("ingresa la url (presione enter))")
+        .default("".to_string())
+        .interact_text()
+        .unwrap();
     let password = password_validator();
-    
-
+    Entrada::new_creado(title, user, password,url);
+    Ok(())
 }
 
-fn vista_for_delete() -> std::io::Result<()>{
+fn vista_for_delete() -> std::io::Result<()> {
     let default_choice_for_sort = false;
 
-
     let mut cuentas_con_formato = Vec::new();
-    let mut lista_cuentas:Vec<Entrada> = controller_sql::listar_cuentas().unwrap();
-    for i in 0..lista_cuentas.len(){
-        let mut string_pusher_2 = format!("{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
-                                          lista_cuentas[i].id,
-                                          lista_cuentas[i].titulo.clone().unwrap(),
-                                          lista_cuentas[i].nombre_usuario,
-                                          lista_cuentas[i].contrasena,
-                                          lista_cuentas[i].fecha_creacion,
-                                          lista_cuentas[i].url.clone().unwrap());
+    let mut lista_cuentas: Vec<Entrada> = controller_sql::listar_cuentas().unwrap();
+    for i in 0..lista_cuentas.len() {
+        let mut string_pusher_2 = format!(
+            "{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
+            lista_cuentas[i].id,
+            lista_cuentas[i].titulo.clone().unwrap(),
+            lista_cuentas[i].nombre_usuario,
+            lista_cuentas[i].contrasena,
+            lista_cuentas[i].fecha_creacion,
+            lista_cuentas[i].url.clone().unwrap()
+        );
         cuentas_con_formato.push(string_pusher_2);
     }
 
@@ -197,14 +200,16 @@ fn vista_for_delete() -> std::io::Result<()>{
 
     match selection {
         Some(index) => {
-
-            if Confirm::new().with_prompt("Do you want to continue?").interact()? {
+            if Confirm::new()
+                .with_prompt("Do you want to continue?")
+                .interact()?
+            {
                 println!("Looks like you want to continue");
-                controller_sql::eliminar_cuenta(&lista_cuentas[index]).expect("no se ha podido eliminar la cuenta");
+                controller_sql::eliminar_cuenta(&lista_cuentas[index])
+                    .expect("no se ha podido eliminar la cuenta");
             } else {
                 println!("nevermind then :(");
             }
-
         }
         None => {
             println!("Regresando")
@@ -217,9 +222,6 @@ fn vista_for_update() {
     todo!()
 }
 
-
 fn vista_for_contenido(cuenta: String) {
     todo!()
-
-
 }
