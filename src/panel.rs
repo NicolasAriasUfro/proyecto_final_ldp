@@ -1,6 +1,10 @@
+use crate::controlador::manipular_info::crypto_base::crear_llave;
+use crate::controlador::manipular_info::crypto_base::hash_contra_maestra;
 use crate::controlador::manipular_info::info_almacenada::Entrada;
 use crate::controlador::*;
 use crate::controller_sql;
+use crate::controller_sql::agregar_master;
+use crate::controller_sql::recuperar_datos_master;
 use dialoguer::{
     console::Term, theme::ColorfulTheme, Confirm, FuzzySelect, Input, Password, Select,
 };
@@ -29,7 +33,7 @@ pub fn panel_loader() -> std::io::Result<()> {
     Ok(())
 }
 fn login() {
-    let contraseña_maestra = "12345678".to_string(); //for testing
+    let contraseña_maestra = recuperar_datos_master(); //for testing
 
     let password = Password::new()
         .with_prompt("Ingrese contraseña maestra:")
@@ -58,15 +62,17 @@ pub fn panel_register() {
         })
         .interact()
         .unwrap();
+        
+        setear_llave_maestra(contra_maestra);
         println!("Creacion exitosa");
-        panel_loader();
+        panel_loader().unwrap();
         
 }
 
 //panel principal de la aplicación, muestra todas las cuentas almacenadas con su titulo (si hay), user, url(si hay) y password
 pub fn panel_main() {
     loop {
-        seleccionar();
+        seleccionar().unwrap();
     }
 }
 
@@ -179,7 +185,7 @@ fn vista_for_create()-> std::io::Result<()>{
     let cuenta_a_subir = Entrada::new_creado(title, user, password, url);
     let llave_temporal: [u8; 32] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32];
     let cifrador_temporal = Criptografia::new(&llave_temporal);
-    controller_sql::agregar_cuenta(&cuenta_a_subir,&cifrador_temporal);
+    controller_sql::agregar_cuenta(&cuenta_a_subir,&cifrador_temporal).unwrap();
     Ok(())
 }
 

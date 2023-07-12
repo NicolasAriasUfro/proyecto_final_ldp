@@ -1,6 +1,6 @@
 use dialoguer::Password;
 
-use self::manipular_info::crypto_base::hash_contra_maestra;
+use self::manipular_info::crypto_base::{hash_contra_maestra, crear_llave};
 pub mod manipular_info;
 use crate::controller_sql::*;
 use crate::panel::{panel_loader, panel_register};
@@ -62,21 +62,18 @@ pub fn validar_llave_maestra(contra_recibida:&[u8],sal:&[u8;16])->bool{
     hash_guardado==hash_calculado
 }
 
+pub fn setear_llave_maestra(contra: String) -> std::io::Result<()>{
+    let mut sal=[0u8;16];
+    let mut llave=[0u8;32];
+    let hash_contra:Vec<u8>;
+    crear_llave(&contra.to_owned(), &mut llave, &mut sal);
+    hash_contra=hash_contra_maestra(contra.as_bytes(), &sal);
+    agregar_master(&hash_contra, &sal).unwrap();
+    Ok(())
+}
 
 pub fn get_password(password: &str) {
-    // Llama a la función de validación de llave maestra pasando la contraseña ingresada
-    // let valid = validar_llave_maestra(password);
-    /* 
-    if valid {
-        println!("Contraseña válida. Acceso permitido.");
-    } else {
-        println!("Contraseña inválida. Acceso denegado.");
-    }
-    */
-
-    // TODO: esta funcion debe obtener la contraseña de la base de datos una vez se halla validado 
-    // con la contraseña ingresada, debe dar una excepción si la contraseña es incorrecta.
-
+    
 }
 
 
