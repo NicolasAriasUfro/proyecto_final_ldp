@@ -6,6 +6,7 @@ use dialoguer::{
 };
 use manipular_info::info_almacenada::*;
 use std::slice::ChunksExact;
+use crate::controlador::manipular_info::crypto_base::Criptografia;
 
 pub fn panel_loader() -> std::io::Result<()> {
     let selection = Select::with_theme(&ColorfulTheme::default())
@@ -124,7 +125,9 @@ fn vista_for_selection() -> std::io::Result<()> {
     let default_choice_for_sort = false;
 
     let mut cuentas_con_formato = Vec::new();
-    let mut lista_cuentas: Vec<Entrada> = controller_sql::listar_cuentas().unwrap();
+    let llave_temporal: [u8; 32] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32];
+    let cifrador_temporal = Criptografia::new(&llave_temporal);
+    let mut lista_cuentas: Vec<Entrada> = controller_sql::listar_cuentas(&cifrador_temporal).unwrap();
     for i in 0..lista_cuentas.len() {
         let string_pusher_2 = format!(
             "{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
@@ -179,7 +182,9 @@ fn vista_for_delete() -> std::io::Result<()> {
     let default_choice_for_sort = false;
 
     let mut cuentas_con_formato = Vec::new();
-    let mut lista_cuentas: Vec<Entrada> = controller_sql::listar_cuentas().unwrap();
+    let llave_temporal: [u8; 32] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32];
+    let cifrador_temporal = Criptografia::new(&llave_temporal);
+    let mut lista_cuentas: Vec<Entrada> = controller_sql::listar_cuentas(&cifrador_temporal).unwrap();
     for i in 0..lista_cuentas.len() {
         let mut string_pusher_2 = format!(
             "{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
