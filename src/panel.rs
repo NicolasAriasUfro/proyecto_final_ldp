@@ -1,6 +1,6 @@
 use std::slice::ChunksExact;
 
-use dialoguer::{console::Term, theme::ColorfulTheme, FuzzySelect, Password, Select};
+use dialoguer::{console::Term, theme::ColorfulTheme, FuzzySelect, Password, Select, Input};
 
 use crate::controlador::*;
 use manipular_info::info_almacenada::*;
@@ -52,7 +52,7 @@ fn sort_by_title() {
 }
 
 pub fn seleccionar() -> std::io::Result<()> {
-    let items = vec!["Ver cuentas", "Crear cuenta nueva", "Borrar cuenta"];
+    let items = vec!["Ver cuentas", "Crear cuenta nueva", "Borrar cuenta", "instrucciones"];
     println!("para salir presione esc");
     let selection = Select::with_theme(&ColorfulTheme::default())
         .with_prompt("Menu")
@@ -71,6 +71,9 @@ pub fn seleccionar() -> std::io::Result<()> {
             if index == 2 {
                 vista_for_delete()
             }
+            if index == 4{
+                instrucciones()
+            }
         }
         None => {
             println!("Saliendo");
@@ -79,6 +82,15 @@ pub fn seleccionar() -> std::io::Result<()> {
     }
 
     Ok(())
+}
+
+fn instrucciones() {
+    let texto: String = Input::with_theme(&ColorfulTheme::default())
+    .with_prompt("Para manejar el programa use las teclas enter y barra espaciadora\n
+                  Volver atras: esc")
+    .default("".to_string())
+    .interact_text()
+    .unwrap();
 }
 
 fn vista_for_selection() -> std::io::Result<()> {
@@ -115,10 +127,13 @@ fn vista_for_selection() -> std::io::Result<()> {
     Ok(())
 }
 
-fn vista_for_create() -> std::io::Result<()>{
-    
+fn vista_for_create() {
+    let mail: String = Input::with_theme(&ColorfulTheme::default())
+        .with_prompt("ingresa el titulo (presione enter))")
+        .default("".to_string())
+        .interact_text()
+        .unwrap();
 
-    Ok(())
 }
 
 fn vista_for_delete() {
