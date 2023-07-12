@@ -14,8 +14,10 @@ use dialoguer::{
 };
 
 
+/*
 use manipular_info::info_almacenada::*;
 use std::slice::ChunksExact;
+ */
 
 pub fn panel_loader() -> std::io::Result<()> {
     let selection = Select::with_theme(&ColorfulTheme::default())
@@ -88,9 +90,6 @@ pub fn panel_main(cifrador: Criptografia) {
     }
 }
 
-fn sort_by_title() {
-    todo!()
-}
 
 pub fn seleccionar(cifrador: &Criptografia) -> std::io::Result<()> {
     let items = vec![
@@ -142,11 +141,10 @@ fn instrucciones() {
 }
 
 fn vista_for_selection(cifrador: &Criptografia) -> std::io::Result<()> {
-    let default_choice_for_sort = false;
 
     let mut cuentas_con_formato = Vec::new();
 
-    let mut lista_cuentas: Vec<Entrada> =
+    let lista_cuentas: Vec<Entrada> =
         controller_sql::listar_cuentas(&cifrador).unwrap();
     for i in 0..lista_cuentas.len() {
         let string_pusher_2 = format!(
@@ -200,14 +198,13 @@ fn vista_for_create(cifrador: &Criptografia) -> std::io::Result<()> {
 }
 
 fn vista_for_delete(cifrador: &Criptografia) -> std::io::Result<()> {
-    let default_choice_for_sort = false;
 
     let mut cuentas_con_formato = Vec::new();
 
-    let mut lista_cuentas: Vec<Entrada> =
+    let lista_cuentas: Vec<Entrada> =
         controller_sql::listar_cuentas(&cifrador).unwrap();
     for i in 0..lista_cuentas.len() {
-        let mut string_pusher_2 = format!(
+        let string_pusher_2 = format!(
             "{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
             lista_cuentas[i].id,
             lista_cuentas[i].titulo.clone(),

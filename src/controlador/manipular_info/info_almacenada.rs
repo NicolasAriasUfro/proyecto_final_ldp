@@ -60,22 +60,6 @@ impl Entrada {
         }
     }
 
-    pub fn set_id(&mut self, nueva_id: u64) {
-        self.id = nueva_id;
-    }
-    pub fn set_titulo(&mut self,nuevo_titulo:String)->bool{
-        
-        self.titulo=nuevo_titulo;
-        true
-    }
-
-    pub fn set_contra(&mut self, nueva_contra: String) -> bool {
-        if nueva_contra.trim() == "" {
-            return false;
-        }
-        self.contrasena = nueva_contra;
-        true
-    }
 
     pub fn cifrar_contra(&self,cifrador:&Criptografia)->Vec<u8>{
         let contra_cifrada=match cifrador.cifrar_bytes(&self.nonce, self.contrasena.as_bytes()){

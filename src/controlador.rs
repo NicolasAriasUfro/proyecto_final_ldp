@@ -36,9 +36,6 @@ pub fn load_app() {
     }
 }
 
-
-
-//funcion temporal para validar la contraseña
 pub fn password_validator() -> String {
     let password: String = Password::new()
         .with_prompt("Enter password")
@@ -71,11 +68,3 @@ pub fn setear_llave_maestra(contra: String) -> std::io::Result<()>{
     agregar_master(&hash_contra, &sal).unwrap();
     Ok(())
 }
-
-pub fn get_password(password: &str) {
-    
-}
-
-
-
-
