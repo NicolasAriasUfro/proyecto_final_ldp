@@ -1,7 +1,7 @@
 use rusqlite::{params, Connection, Result, Error};
 use crate::controlador::manipular_info::info_almacenada::*;
 use std::fs;
-use crypto_base;
+use crate::controlador::manipular_info::crypto_base;
 use crate::controlador::manipular_info::crypto_base::Criptografia;
 use crate::controlador::manipular_info::info_almacenada;
 
@@ -39,7 +39,7 @@ pub fn set_database() -> Result<()> {
 }
 ///Recibe una cuenta que ya tenga asignado su id,
 /// y actualiza todos los demás campos en la base de datos.
-fn actualizar_cuenta(cuenta: &Entrada,cifrador:&Cifrador) -> Result<()> {
+fn actualizar_cuenta(cuenta: &Entrada,cifrador:&Criptografia) -> Result<()> {
     let contra_cifrada = &cuenta.cifrar_contra(cifrador);
     let conn = Connection::open("database.db")?;
     conn.execute(

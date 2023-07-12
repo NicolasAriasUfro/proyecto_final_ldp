@@ -34,7 +34,7 @@ fn main() {
 
 
 
-
+    /*
     controller_sql::agregar_cuenta(&Entrada::new_creado("".to_owned(),"twitter".to_owned(),"12345678".to_owned(),"".to_owned())).unwrap();
     comprobar_contra();
     let clave="contra".to_owned();
@@ -45,6 +45,8 @@ fn main() {
     println!("key={:?}\n key_hash={:?}",llave,hash_contra_maestra(&clave.as_bytes(), &sal));
     assert_ne!(hash_contra_maestra(&clave.as_bytes(), &sal),llave);
     assert_eq!(hash_clave,hash_contra_maestra(&clave.as_bytes(), &sal));
+
+     */
 
 }
 
@@ -118,10 +120,10 @@ fn poblar_base_de_datos(){
     );
 
 
-
+/*
     controller_sql::agregar_cuenta(&cuenta_1);
     controller_sql::agregar_cuenta(&cuenta_2);
     controller_sql::agregar_cuenta(&cuenta_3);
-
+*/
 
 }
