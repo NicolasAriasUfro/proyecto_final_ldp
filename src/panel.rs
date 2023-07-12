@@ -3,12 +3,12 @@ use crate::controlador::manipular_info::crypto_base::crear_llave;
 use crate::controlador::manipular_info::crypto_base::hash_contra_maestra;
 use crate::controlador::manipular_info::crypto_base::Criptografia;
 use crate::controlador::manipular_info::info_almacenada::Entrada;
-use crate::controlador::*;
 use crate::controlador::manipular_info::iniciar_base_de_datos_existente;
-use crate::{clipboard_generic, controller_sql};
+use crate::controlador::*;
 use crate::controller_sql::agregar_master;
 use crate::controller_sql::recuperar_datos_master;
 use crate::controller_sql::set_database;
+use crate::{clipboard_generic, controller_sql};
 use dialoguer::{
     console::Term, theme::ColorfulTheme, Confirm, FuzzySelect, Input, Password, Select,
 };
@@ -39,19 +39,15 @@ fn login() {
     let contraseña_maestra = recuperar_datos_master().unwrap();
     let sal = &contraseña_maestra.1;
     let hash_almacenado = &contraseña_maestra.0;
-    
+
     let password = Password::new()
         .with_prompt("Ingrese contraseña maestra:")
         .interact()
         .expect("Error al solicitar la contraseña, contraseña incorrecta");
-    if comprobar_contra_maestra(
-        &password,
-        sal,
-        hash_almacenado,
-    ) {
-        iniciar_base_de_datos_existente(&password, &sal);
+    if comprobar_contra_maestra(&password, sal, hash_almacenado) {
+        let criptografia = iniciar_base_de_datos_existente(&password, &sal);
         panel_main();
-    }else{
+    } else {
         println!("error")
     }
 }
@@ -76,8 +72,9 @@ pub fn panel_register() {
         })
         .interact()
         .unwrap();
-    set_database();
-    setear_llave_maestra(contra_maestra);
+
+    set_database().unwrap();
+    setear_llave_maestra(contra_maestra).unwrap();
     println!("Creacion exitosa");
     panel_loader().unwrap();
 }
@@ -159,7 +156,7 @@ fn vista_for_selection() -> std::io::Result<()> {
             lista_cuentas[i].id,
             lista_cuentas[i].titulo.clone(),
             lista_cuentas[i].nombre_usuario,
-            "********"/*lista_cuentas[i].contrasena*/,
+            "********", /*lista_cuentas[i].contrasena*/
             lista_cuentas[i].fecha_creacion,
             lista_cuentas[i].url.clone()
         );
@@ -259,12 +256,13 @@ fn vista_for_delete() -> std::io::Result<()> {
     Ok(())
 }
 
-
-fn cuenta_detallada(cuenta: &Entrada) -> std::io::Result<()>  {
+fn cuenta_detallada(cuenta: &Entrada) -> std::io::Result<()> {
     let mut cuenta_con_formato = Vec::new();
-    let llave_temporal: [u8; 32] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32];
+    let llave_temporal: [u8; 32] = [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+        26, 27, 28, 29, 30, 31, 32,
+    ];
     let cifrador_temporal = Criptografia::new(&llave_temporal);
-
 
     let string_pusher_2 = format!(
         "{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
@@ -274,7 +272,7 @@ fn cuenta_detallada(cuenta: &Entrada) -> std::io::Result<()>  {
         &cuenta.contrasena,
         &cuenta.fecha_creacion,
         &cuenta.url.clone()
-        );
+    );
 
     cuenta_con_formato.push(string_pusher_2);
     clipboard_generic::copiar_al_portapapeles(&cuenta.contrasena);
@@ -286,5 +284,4 @@ fn cuenta_detallada(cuenta: &Entrada) -> std::io::Result<()>  {
         .interact_on_opt(&Term::stderr())?;
 
     Ok(())
-
 }
