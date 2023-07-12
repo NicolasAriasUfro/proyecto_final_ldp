@@ -18,13 +18,21 @@ pub struct Entrada {
 impl Entrada {
     pub fn new_desde_bd(
         id: u64,
-        titulo: Option<String>,
+        titulo: String,
         nombre_usuario: String,
         contrasena: String,
         nonce: [u8; 12],
         fecha_creacion: u64,
-        url: Option<String>,
+        url: String,
     ) -> Self {
+        let titulo=match titulo.as_str(){
+            ""=>None,
+            _=>Some(titulo)
+        };
+        let url=match url.as_str(){
+            ""=>None,
+            _=>Some(url)
+        };
         Self {
             id,
             titulo,
@@ -37,11 +45,20 @@ impl Entrada {
     }
 
     pub fn new_creado(
-        titulo: Option<String>,
+        titulo: String,
         nombre_usuario: String,
         contrasena: String,
-        url: Option<String>,
+        url: String,
     ) -> Self {
+        let titulo=match titulo.as_str(){
+            ""=>None,
+            _=>Some(titulo)
+        };
+        let url=match url.as_str(){
+            ""=>None,
+            _=>Some(url)
+        };
+
         let nonce=crear_nonce();
         let fecha_creacion = time::SystemTime::now()
         .duration_since(UNIX_EPOCH)
