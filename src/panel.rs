@@ -50,10 +50,12 @@ fn login() {
         hash_almacenado,
     ) {
         iniciar_base_de_datos_existente(&password, &sal);
+        panel_main();
+    }else{
+        println!("error")
     }
 }
 
-// panel para crear la contraseña si la base de datos no existe, luego almacenarla en la base de datos y finalmente
 pub fn panel_register() {
     let contra_maestra = Password::with_theme(&ColorfulTheme::default())
         .with_prompt(
