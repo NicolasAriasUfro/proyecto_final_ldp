@@ -2,6 +2,9 @@ use dialoguer::Password;
 
 use self::manipular_info::crypto_base::hash_contra_maestra;
 pub mod manipular_info;
+use crate::controller_sql;
+use std::fs::File;
+
 /* 
 
 pub fn password_validator(password: &str) {//-> bool {
@@ -18,6 +21,16 @@ pub fn password_validator(password: &str) {//-> bool {
     .unwrap();
 }
 */
+
+pub fn load_app() ->    Result<(), io::Error> {
+    match File::open("database.db"){
+        Ok(file)=>controller_sql::set_database(),
+        Err(error) => Err(error),
+    }
+   
+    
+
+}
 //funcion temporal para validar la contraseña
 pub fn password_validator() -> String {
     let password: String = Password::new()

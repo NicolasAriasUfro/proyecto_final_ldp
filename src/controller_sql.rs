@@ -1,11 +1,12 @@
 use rusqlite::{params, Connection, Result, Error};
 use crate::controlador::manipular_info::info_almacenada::*;
 
+
 pub fn set_database() -> Result<()> {
     let conn = Connection::open("database.db")?;
     //crear la tabla de cuentas
-    conn.execute("drop table if exists cuentas",params![])?;
-    conn.execute("drop table if exists master", params![])?;
+    //conn.execute("drop table if exists cuentas",params![])?;
+    //conn.execute("drop table if exists master", params![])?;
     conn.execute(
         "CREATE TABLE IF NOT EXISTS cuentas (
             id            INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -121,9 +122,6 @@ pub fn recuperar_datos_master()->Result<(Vec<u8>,[u8;16]),Error>{
         },
         None=>return Err(Error::QueryReturnedNoRows)
     }
-
-    
-
 }
 
 

@@ -8,11 +8,14 @@ use manipular_info::info_almacenada::*;
 use crate::controlador::manipular_info::info_almacenada::Entrada;
 use crate::controller_sql;
 
+
+
+
 pub fn panel_login() {
-    let password = "12345678".to_string(); //for testing
+    let contraseña_maestra = "12345678".to_string(); //for testing
 
     let password = Password::new()
-        .with_prompt("Ingrese su contraseña:")
+        .with_prompt("Ingrese contraseña maestra:")
         .interact()
         .expect("Error al solicitar la contraseña, contraseña incorrecta");
 }
