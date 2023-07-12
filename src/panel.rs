@@ -3,6 +3,7 @@ use std::slice::ChunksExact;
 use dialoguer::{console::Term, theme::ColorfulTheme, FuzzySelect, Password, Select};
 
 use crate::controlador::*;
+use manipular_info::info_almacenada::*;
 
 use crate::controlador::manipular_info::info_almacenada::Entrada;
 use crate::controller_sql;
@@ -44,7 +45,6 @@ pub fn panel_main() {
     // 3. Listar todas las cuentas por nombre/fecha (cambia con cada seleccion)
     // 4. Salir
     // 5. poder elegir una cuenta para mostrar su información
-    std::process::exit(0);
 }
 
 fn sort_by_title() {
@@ -63,13 +63,13 @@ pub fn seleccionar() -> std::io::Result<()> {
     match selection {
         Some(index) => {
             if index == 0 {
-                vista_for_selection()?;
+                vista_for_selection()?
             }
             if index == 1 {
-                println!("agua")
+                vista_for_create()
             }
             if index == 2 {
-                println!("tierra")
+                vista_for_delete()
             }
         }
         None => {
@@ -115,15 +115,24 @@ fn vista_for_selection() -> std::io::Result<()> {
     Ok(())
 }
 
-fn vista_for_delete() {}
+fn vista_for_delete() {
+    todo!()
+}
+
+fn vista_for_create(){
+
+}
 
 fn vista_for_update() {
     todo!()
 }
 
 // este panel debe mostrar el contenido de la contraseña una vez se escoja una
-pub fn panel_contenido() {
+
+fn vista_for_contenido(cuenta: String) {
     todo!()
+
+
 
     //esta funcion muestra el contenido de la cuenta
     //debe permitir volver atras,
