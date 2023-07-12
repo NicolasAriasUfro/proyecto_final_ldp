@@ -41,9 +41,9 @@ fn login() {
 pub fn panel_register() {
     let contra_maestra = Password::with_theme(&ColorfulTheme::default())
         .with_prompt(
-            "Bienvenido a el mejor gestor de contraseñas en rust\n
-             Primero, debes generar una contraseña maestra\n
-             AVISO: SI OLVIDAS ESTA CONTRASEÑA, NO PODRAS RECUPERAR TU BASE DE DATOS",
+            "Bienvenido a el mejor gestor de contraseñas en rust
+  Primero, debes generar una contraseña maestra
+  AVISO: SI OLVIDAS ESTA CONTRASEÑA, NO PODRAS RECUPERAR TU BASE DE DATOS",
         )
         .with_confirmation(
             "Repite la contraseña",

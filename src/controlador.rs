@@ -31,8 +31,8 @@ pub fn load_app() {
             panel_loader();
         }
     }else{
-        set_database();
         panel_register();
+        set_database();
     }
 }
 
