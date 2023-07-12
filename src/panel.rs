@@ -3,6 +3,7 @@ use std::slice::ChunksExact;
 use dialoguer::{console::Term, theme::ColorfulTheme, FuzzySelect, Password, Select};
 
 use crate::controlador::*;
+use manipular_info::info_almacenada::*;
 
 pub fn panel_login() {
     let password = "12345678".to_string(); //for testing
@@ -110,16 +111,21 @@ fn vista_for_selection() -> std::io::Result<()> {
     Ok(())
 }
 
-fn vista_for_delete() {}
+fn vista_for_delete() {
+    todo!()
+}
 
 fn vista_for_update() {
     todo!()
 }
 
 // este panel debe mostrar el contenido de la contraseña una vez se escoja una
+
 fn vista_for_contenido(cuenta: String) {
     todo!()
 
+
+    
     //esta funcion muestra el contenido de la cuenta
     //debe permitir volver atras,
     //formato de ejemplo:
