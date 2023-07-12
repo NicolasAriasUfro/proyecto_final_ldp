@@ -36,9 +36,9 @@ pub fn panel_loader() -> std::io::Result<()> {
     Ok(())
 }
 fn login() {
-    let contraseña_maestra = recuperar_datos_master();
-    let sal = &contraseña_maestra.unwrap().1;
-    let hash_almacenado = &contraseña_maestra.unwrap().0;
+    let contraseña_maestra = recuperar_datos_master().unwrap();
+    let sal = &contraseña_maestra.1;
+    let hash_almacenado = &contraseña_maestra.0;
     
     let password = Password::new()
         .with_prompt("Ingrese contraseña maestra:")
