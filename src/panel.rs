@@ -101,7 +101,7 @@ fn vista_for_selection() -> std::io::Result<()> {
 
     match selection {
         Some(index) => {
-            panel_contenido(cuentas[index].clone());
+            vista_for_contenido(cuentas[index].clone());
         }
         None => {
             println!("Regresando")
