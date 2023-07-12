@@ -1,6 +1,9 @@
 use rusqlite::{params, Connection, Result, Error};
 use crate::controlador::manipular_info::info_almacenada::*;
 use std::fs;
+use crypto_base;
+use crate::controlador::manipular_info::crypto_base::Criptografia;
+use crate::controlador::manipular_info::info_almacenada;
 
 pub fn existe_la_base_de_datos() -> bool {
     let ruta_archivo = "./database.db";
@@ -36,7 +39,8 @@ pub fn set_database() -> Result<()> {
 }
 ///Recibe una cuenta que ya tenga asignado su id,
 /// y actualiza todos los demás campos en la base de datos.
-fn actualizar_cuenta(cuenta: &Entrada) -> Result<()> {
+fn actualizar_cuenta(cuenta: &Entrada,cifrador:&Cifrador) -> Result<()> {
+    let contra_cifrada = &cuenta.cifrar_contra(cifrador);
     let conn = Connection::open("database.db")?;
     conn.execute(
         "UPDATE cuentas SET
@@ -47,7 +51,7 @@ fn actualizar_cuenta(cuenta: &Entrada) -> Result<()> {
         fecha = ?6,
         url = ?7,
         WHERE id = ?1",
-        params![&cuenta.id, &cuenta.titulo, &cuenta.nombre_usuario,&cuenta.contrasena,
+        params![&cuenta.id, &cuenta.titulo, &cuenta.nombre_usuario,contra_cifrada,
         &cuenta.nonce, &cuenta.fecha_creacion,&cuenta.url],
     )?;
     Ok(())
@@ -63,13 +67,15 @@ pub fn eliminar_cuenta(cuenta:&Entrada) -> Result<()>{
 
 /// Ingresa una cuenta a la base de datos, donde se le asigna un id automáticamente
 /// La cuenta debe tener cifrada el atributo contraseña
-pub fn agregar_cuenta(cuenta:&Entrada) -> Result<()>{
+pub fn agregar_cuenta(cuenta:&Entrada,cifrador:&Criptografia) -> Result<()>{
+    let contra_cifrada = &cuenta.cifrar_contra(cifrador);
+
 
     let conn = Connection::open("database.db")?;
     conn.execute(
         "INSERT INTO cuentas (title,user_name,hash_password,nonce,fecha,url)
             Values(?1,?2,?3,?4,?5,?6)",
-        (&cuenta.titulo,&cuenta.nombre_usuario,&cuenta.contrasena,&cuenta.nonce,&cuenta.fecha_creacion,&cuenta.url)
+        (&cuenta.titulo, &cuenta.nombre_usuario,contra_cifrada,&cuenta.nonce,&cuenta.fecha_creacion,&cuenta.url)
     )?;
     Ok(())
 }
@@ -79,7 +85,7 @@ pub fn agregar_cuenta(cuenta:&Entrada) -> Result<()>{
 /// y la devuelve con todos sus parámetros.
 /// # return
 /// Ok(Vec<Entrada>)
-pub fn listar_cuentas()-> Result<Vec<Entrada>,Error>{
+pub fn listar_cuentas(cifrador: &Criptografia)-> Result<Vec<Entrada>,Error>{
     let mut vec_cuentas:Vec<Entrada> = vec![];
     let conn = Connection::open("database.db")?;
     let mut stmt = conn.prepare(
@@ -90,7 +96,7 @@ pub fn listar_cuentas()-> Result<Vec<Entrada>,Error>{
             row.get(0)?,
             row.get(1)?,
             row.get(2)?,
-            row.get(3)?,
+            descifrar_contra(row.get(3)?,row.get(4)?,cifrador),
             row.get(4)?,
             row.get(5)?,
             row.get(6)?
