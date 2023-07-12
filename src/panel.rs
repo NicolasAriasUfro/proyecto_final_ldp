@@ -27,7 +27,7 @@ pub fn panel_loader() -> std::io::Result<()> {
     }
     Ok(())
 }
-pub fn panel_login() {
+fn panel_login() {
     let contraseña_maestra = "12345678".to_string(); //for testing
 
     let password = Password::new()
@@ -38,7 +38,7 @@ pub fn panel_login() {
 
 // panel para crear la contraseña si la base de datos no existe, luego almacenarla en la base de datos y finalmente
 pub fn panel_register() {
-    let password = Password::with_theme(&ColorfulTheme::default())
+    let contra_maestra = Password::with_theme(&ColorfulTheme::default())
         .with_prompt(
             "Bienvenido a el mejor gestor de contraseñas en rust\n
              Primero, debes generar una contraseña maestra\n
@@ -57,6 +57,7 @@ pub fn panel_register() {
         })
         .interact()
         .unwrap();
+        
 }
 
 //panel principal de la aplicación, muestra todas las cuentas almacenadas con su titulo (si hay), user, url(si hay) y password
@@ -145,7 +146,7 @@ fn vista_for_selection() -> std::io::Result<()> {
 
     match selection {
         Some(index) => {
-            println!("todo");
+            cuenta_detallada(index);
         }
         None => {
             println!("Regresando")
@@ -170,7 +171,7 @@ fn vista_for_create()-> std::io::Result<()>{
         .interact_text()
         .unwrap();
     let password = password_validator();
-    Entrada::new_creado(title, user, password,url);
+    Entrada::new_creado(title, user, password, url);
     Ok(())
 }
 
@@ -222,6 +223,6 @@ fn vista_for_update() {
     todo!()
 }
 
-fn vista_for_contenido(cuenta: String) {
-    todo!()
+fn cuenta_detallada(index: usize) {
+    
 }
