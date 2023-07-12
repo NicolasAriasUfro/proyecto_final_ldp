@@ -5,7 +5,7 @@ use crate::controlador::manipular_info::crypto_base::Criptografia;
 use crate::controlador::manipular_info::info_almacenada::Entrada;
 use crate::controlador::*;
 use crate::controlador::manipular_info::iniciar_base_de_datos_existente;
-use crate::controller_sql;
+use crate::{clipboard_generic, controller_sql};
 use crate::controller_sql::agregar_master;
 use crate::controller_sql::recuperar_datos_master;
 use crate::controller_sql::set_database;
@@ -277,10 +277,10 @@ fn cuenta_detallada(cuenta: &Entrada) -> std::io::Result<()>  {
         );
 
     cuenta_con_formato.push(string_pusher_2);
-
+    clipboard_generic::copiar_al_portapapeles(&cuenta.contrasena);
 
     let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
-        .with_prompt("Id       Titulo     Usuario    Contraseña fecha      Url     ")
+        .with_prompt("Id       Titulo   Usuario  Contraseña fecha    Url")
         .items(&cuenta_con_formato)
         .default(0)
         .interact_on_opt(&Term::stderr())?;
