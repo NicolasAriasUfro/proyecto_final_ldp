@@ -86,15 +86,15 @@ fn vista_for_selection() -> std::io::Result<()> {
 
 
     let mut cuentas_con_formato = Vec::new();
-    let mut lista_cuentas:Vec<Entrada> = controller_sql::lista_cuentas();
+    let mut lista_cuentas:Vec<Entrada> = controller_sql::listar_cuentas().unwrap();
     for i in 0..lista_cuentas.len(){
-        let string_pusher_2 = format!("{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
+        let mut string_pusher_2 = format!("{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
                                       lista_cuentas[i].id,
-                                      lista_cuentas[i].titulo?,
+                                      lista_cuentas[i].titulo.clone().unwrap(),
                                       lista_cuentas[i].nombre_usuario,
                                       lista_cuentas[i].contrasena,
                                       lista_cuentas[i].fecha_creacion,
-                                      lista_cuentas[i].url?);
+                                      lista_cuentas[i].url.clone().unwrap());
         cuentas_con_formato.push(string_pusher_2);
     }
 
