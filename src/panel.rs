@@ -193,6 +193,7 @@ fn vista_for_delete() -> std::io::Result<()> {
         cuentas_con_formato.push(string_pusher_2);
     }
 
+
     let selection = Select::with_theme(&ColorfulTheme::default())
         .with_prompt("Id       Titulo     Usuario    Contraseña fecha      Url     ")
         .items(&cuentas_con_formato)

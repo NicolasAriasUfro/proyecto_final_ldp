@@ -5,6 +5,7 @@ use crate::controlador::manipular_info::crypto_base;
 use crate::controlador::manipular_info::crypto_base::Criptografia;
 use crate::controlador::manipular_info::info_almacenada;
 
+
 pub fn existe_la_base_de_datos() -> bool {
     let ruta_archivo = "./database.db";
     fs::metadata(ruta_archivo).is_ok()
