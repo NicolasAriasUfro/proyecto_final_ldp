@@ -2,8 +2,8 @@ use dialoguer::Password;
 
 use self::manipular_info::crypto_base::hash_contra_maestra;
 pub mod manipular_info;
-use crate::controller_sql;
-use crate::panel::panel_loader;
+use crate::controller_sql::*;
+use crate::panel::{panel_loader, panel_register};
 use std::fs::File;
 
 /* 
@@ -22,19 +22,19 @@ pub fn password_validator(password: &str) {//-> bool {
     .unwrap();
 }
 */
+/* 
 
-pub fn load_app() ->    Result<(), io::Error> {
-    match File::open("database.db"){
-        Ok(file)=>{
-            controller_sql::set_database();
-            panel_loader();
-        },
-        Err(error) => Err(error),
+pub fn load_app() {
+    if existe_la_base_de_datos(){
+        panel_loader();
+    }else{
+        set_database();
+        panel_register();
     }
-   
-    
-
 }
+
+*/
+
 //funcion temporal para validar la contraseña
 pub fn password_validator() -> String {
     let password: String = Password::new()

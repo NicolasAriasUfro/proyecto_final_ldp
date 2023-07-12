@@ -11,8 +11,8 @@ pub fn existe_la_base_de_datos() -> bool {
 pub fn set_database() -> Result<()> {
     let conn = Connection::open("database.db")?;
     //crear la tabla de cuentas
-    //conn.execute("drop table if exists cuentas",params![])?;
-    //conn.execute("drop table if exists master", params![])?;
+    conn.execute("drop table if exists cuentas",params![])?;
+    conn.execute("drop table if exists master", params![])?;
     conn.execute(
         "CREATE TABLE IF NOT EXISTS cuentas (
             id            INTEGER PRIMARY KEY AUTOINCREMENT,
