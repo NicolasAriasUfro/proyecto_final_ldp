@@ -58,8 +58,8 @@ pub fn panel_register() {
         })
         .interact()
         .unwrap();
-
-        
+        println!("Creacion exitosa");
+        panel_loader();
         
 }
 
