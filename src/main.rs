@@ -35,7 +35,7 @@ fn main() {
 
 
 
-    controller_sql::agregar_cuenta(&Entrada::new_creado(None,"twitter".to_owned(),"12345678".to_owned(),*b"abcdefghijkl",None)).unwrap();
+    controller_sql::agregar_cuenta(&Entrada::new_creado(None,"twitter".to_owned(),"12345678".to_owned(),None)).unwrap();
     comprobar_contra();
     let clave="contra".to_owned();
     let mut sal=[0u8;16];
@@ -102,21 +102,18 @@ fn poblar_base_de_datos(){
         Some(String::from("Codeforces")),
         "nico_arias".parse().unwrap(),
         "asd24355##".parse().unwrap(),
-        [0,0,0,0,00,0,0,0,0,0,0,1],
         Some(String::from("https://codeforces.com/"))
     );
     let cuenta_2:Entrada = Entrada::new_creado(
         Some(String::from("youtube")),
         "juega_german".parse().unwrap(),
         "3333444244".parse().unwrap(),
-        [0,7,0,0,00,0,0,0,0,0,0,1],
         Some(String::from("https://youtube.com"))
     );
     let cuenta_3:Entrada = Entrada::new_creado(
         Some(String::from("facebook")),
         "el_brayan".parse().unwrap(),
         "Brayan_brayan".parse().unwrap(),
-        [0,99,0,0,80,0,0,0,0,0,0,1],
         Some(String::from("https://facebook.com"))
     );
 

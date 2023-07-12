@@ -3,7 +3,7 @@ use std::time::{self, UNIX_EPOCH};
 
 use base64::{engine::general_purpose, Engine};
 
-use super::crypto_base::Criptografia;
+use super::crypto_base::{Criptografia, crear_nonce};
 #[derive(Debug)]
 pub struct Entrada {
     pub(crate) id: u64,
@@ -40,9 +40,9 @@ impl Entrada {
         titulo: Option<String>,
         nombre_usuario: String,
         contrasena: String,
-        nonce: [u8; 12],
         url: Option<String>,
     ) -> Self {
+        let nonce=crear_nonce();
         let fecha_creacion = time::SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .unwrap()
