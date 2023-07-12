@@ -20,7 +20,6 @@ pub fn panel_register() {
     //
     // si esta ok println!("contraseña creada con exito");
     // se dirige al panel_main
-
     todo!()
 }
 
@@ -81,25 +80,28 @@ pub fn seleccionar() -> std::io::Result<()> {
 fn vista_for_selection() -> std::io::Result<()> {
     let default_choice_for_sort = false;
 
+
+    
     let mut cuentas = Vec::new();
     let id: String = "1".to_string();
     let title: String = "Fornite".to_string();
     let user: String = "abzassssdsdsds".to_string();
     let url: String = "www.epicgames.com".to_string();
-    let password: String = "*********".to_string();
+    let password: String= "*********".to_string();
     let date: String = "23/07/2023".to_string();
-    let string_pusher = format!("{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}", id, title, user, url, password, date);
+
+    let string_pusher = format!("{:<2}   {:<8}          {:<8}      {:<8}   {:<8}           {:<8}  ", id, title, user, url, password, date);
     cuentas.push(string_pusher);
 
     let selection = Select::with_theme(&ColorfulTheme::default())
-        .with_prompt("Titulo            Usuario             Url                 Contraseña          fecha   ")
+        .with_prompt("id   Titulo            Usuario             Url                 Contraseña          fecha   \n\n  Para mas detalles selecione")
         .items(&cuentas)
         .default(0)
         .interact_on_opt(&Term::stderr())?;
 
     match selection {
         Some(index) => {
-            println!("todo");
+            panel_contenido(cuentas[index].clone());
         }
         None => {
             println!("Regresando")
@@ -115,7 +117,7 @@ fn vista_for_update() {
 }
 
 // este panel debe mostrar el contenido de la contraseña una vez se escoja una
-pub fn panel_contenido() {
+fn panel_contenido(cuenta: String) {
     todo!()
 
     //esta funcion muestra el contenido de la cuenta
