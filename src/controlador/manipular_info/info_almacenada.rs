@@ -75,7 +75,7 @@ impl Entrada {
         true
     }
 
-    pub fn cifrar_contra(&self,cifrador:Criptografia)->Vec<u8>{
+    pub fn cifrar_contra(&self,cifrador:&Criptografia)->Vec<u8>{
         let contra_cifrada=match cifrador.cifrar_bytes(&self.nonce, self.contrasena.as_bytes()){
             Some(cyphertext)=>cyphertext,
             None=>panic!("algo salio mal con cifrar contra {} y nonce {:?} ",self.contrasena,self.nonce)
@@ -88,7 +88,7 @@ impl Entrada {
 
 }
 
-pub fn descifrar_contra(contra_cifrada:Vec<u8>,nonce:Vec<u8>,cifrador:Criptografia)->String{
+pub fn descifrar_contra(contra_cifrada:Vec<u8>,nonce:Vec<u8>,cifrador:&Criptografia)->String{
     //let nonce=&recrear_nonce(nonce);
     //let contra_cifrada_bytes=match general_purpose::STANDARD_NO_PAD.decode(&contra_cifrada){
         //Ok(bytes)=>bytes,
@@ -119,4 +119,47 @@ pub fn recrear_nonce(nonce:String)->[u8;12]{
         nonce_rebuilt[i]=nonce[i];
     }
     nonce_rebuilt
+}
+
+
+pub type ArbolEntrada=NodoEntrada;
+pub struct NodoEntrada{
+    valor:Entrada,
+    hijo_izq:Option<Box<NodoEntrada>>,
+    hijo_der:Option<Box<NodoEntrada>>
+}
+
+impl NodoEntrada {
+    pub fn new(valor:Entrada)->Self{
+        Self { valor, hijo_izq: None, hijo_der: None }
+    }
+
+    pub fn agregar_por_fecha(&mut self,agregado:Entrada){
+        
+        let nodo_objetivo=if agregado.fecha_creacion<self.valor.fecha_creacion{
+            &mut self.hijo_izq
+        }
+        else{
+            &mut self.hijo_der
+        };
+        match nodo_objetivo{
+            Some(valor)=>valor.agregar_por_fecha(agregado),
+            None=>*nodo_objetivo=Some(Box::new(NodoEntrada::new(agregado)))
+        }
+        
+    }
+
+    pub fn agregar_por_usuario(&mut self,agregado:Entrada){
+        //comparar strings es raro porque toma como mas altas las minusculas finales (ej:z es mayor a 'i' y a 'Z')
+        let nodo_objetivo=if agregado.nombre_usuario.to_lowercase()<self.valor.nombre_usuario.to_lowercase(){
+            &mut self.hijo_izq
+        }
+        else{
+            &mut self.hijo_der
+        };
+        match nodo_objetivo{
+            Some(valor)=>valor.agregar_por_usuario(agregado),
+            None=>*nodo_objetivo=Some(Box::new(NodoEntrada::new(agregado)))
+        }
+    }
 }

@@ -4,7 +4,8 @@ use crate::controlador::manipular_info::info_almacenada::*;
 pub fn set_database() -> Result<()> {
     let conn = Connection::open("database.db")?;
     //crear la tabla de cuentas
-    conn.execute("drop table cuentas",params![])?;
+    conn.execute("drop table if exists cuentas",params![])?;
+    conn.execute("drop table if exists master", params![])?;
     conn.execute(
         "CREATE TABLE IF NOT EXISTS cuentas (
             id            INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -17,6 +18,8 @@ pub fn set_database() -> Result<()> {
         )",
         params![],
     )?;
+
+    conn.execute("CREATE TABLE IF NOT EXISTS master(hash_master TEXT NOT NULL,sal_master TEXT NOT NULL)", params![])?;
 
     /*
     conn.execute(
@@ -101,4 +104,50 @@ pub fn listar_cuentas()-> Result<Vec<Entrada>,Error>{
 
     Ok(vec_cuentas)
 
+}
+
+pub fn recuperar_datos_master()->Result<(Vec<u8>,[u8;16]),Error>{
+    let conn = Connection::open("database.db")?;
+    let mut stmt = conn.prepare(
+        "SELECT hash_master,sal_master from master")?;
+    //let mut par:MasterRec;
+    let mut master_rows=stmt.query_map([], |row|{
+        Ok(
+        MasterData{
+            hash:row.get(0)?,
+            sal:row.get(1)?
+        }
+        )
+    })?;
+
+    match master_rows.next(){
+        Some(par)=>match par{
+            Ok(res)=>Ok((res.hash,res.sal)),
+            Err(err)=>Err(err)
+        },
+        None=>return Err(Error::QueryReturnedNoRows)
+    }
+
+    
+
+}
+
+
+
+pub fn agregar_master(hash_master:&Vec<u8>,sal:&[u8;16]) -> Result<()>{
+
+    let conn = Connection::open("database.db")?;
+    conn.execute(
+        "INSERT INTO master (hash_master,sal_master)
+            Values(?1,?2)",
+        (hash_master,sal)
+    )?;
+    Ok(())
+}
+
+
+
+struct MasterData{
+    hash:Vec<u8>,
+    sal:[u8;16]
 }

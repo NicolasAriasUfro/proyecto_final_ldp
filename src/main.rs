@@ -1,9 +1,10 @@
-use std::{env, process::exit};
+use std::{env, process::exit, hash};
 
 use base64::{engine::general_purpose, Engine};
 use controlador::manipular_info::crypto_base::crear_nonce;
+use controller_sql::{agregar_master, recuperar_datos_master};
 
-use crate::controlador::manipular_info::{crypto_base::{hash_contra_maestra, derivar_llave}, info_almacenada::{recrear_nonce}, iniciar_nueva_base_de_datos};
+use crate::{controlador::manipular_info::{crypto_base::{hash_contra_maestra, crear_llave, derivar_llave}, info_almacenada::{recrear_nonce}, iniciar_nueva_base_de_datos}, controller_sql::set_database};
 use crate::controlador::manipular_info::info_almacenada::Entrada;
 
 
@@ -34,7 +35,7 @@ fn main() {
     let clave="contra".to_owned();
     let mut sal=[0u8;16];
     let mut llave=[0u8;32];
-    derivar_llave(&clave, &mut llave, &mut sal);
+    crear_llave(&clave, &mut llave, &mut sal);
     let hash_clave=hash_contra_maestra(&clave.as_bytes(), &sal);
     println!("key={:?}\n key_hash={:?}",llave,hash_contra_maestra(&clave.as_bytes(), &sal));
     assert_ne!(hash_contra_maestra(&clave.as_bytes(), &sal),llave);
@@ -63,13 +64,14 @@ fn tests(){
     let clave="contra".to_owned();
     let mut sal=[0u8;16];
     let mut llave=[0u8;32];
-    derivar_llave(&clave, &mut llave, &mut sal);
+    crear_llave(&clave, &mut llave, &mut sal);
     //let mut sal_loging=sal.clone();
     //sal_loging[2]=0u8;
     println!("key={:?}\n key_hash={:?}",llave,hash_contra_maestra(&llave, &sal));
     assert_ne!(hash_contra_maestra(&llave, &sal),llave);
     reconstruir_nonce();
-    iniciar_nueva_base_de_datos();
+    iniciar_nueva_base_de_datos(&"abcdefg".to_owned());
+    comprobar_contra();
 }
 
 fn reconstruir_nonce(){
@@ -85,4 +87,23 @@ fn reconstruir_nonce(){
 fn test_panel(){
     //panel::App::panel_login();
     panel::panel_main();
+}
+
+fn comprobar_contra(){
+    set_database().unwrap();
+    println!("comprobando contra");
+    let contra="contra_bkn_123";
+    let mut sal=[0u8;16];
+    let mut llave=[0u8;32];
+    let hash_contra:Vec<u8>;
+    crear_llave(&contra.to_owned(), &mut llave, &mut sal);
+    hash_contra=hash_contra_maestra(contra.as_bytes(), &sal);
+    agregar_master(&hash_contra, &sal).unwrap();
+    let par=recuperar_datos_master().unwrap();
+    assert_eq!(hash_contra,par.0);
+    assert_eq!(sal,par.1);
+    let clave_again="contra_bkn_123";
+    let llave_recreada=derivar_llave(&clave_again.to_owned(), &par.1);
+    assert_eq!(llave_recreada,llave);
+    println!("llave original: {:?}\n llave recreada: {:?}",llave,llave_recreada);
 }
