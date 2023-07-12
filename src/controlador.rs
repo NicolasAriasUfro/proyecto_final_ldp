@@ -3,6 +3,7 @@ use dialoguer::Password;
 use self::manipular_info::crypto_base::hash_contra_maestra;
 pub mod manipular_info;
 use crate::controller_sql;
+use crate::panel::panel_loader;
 use std::fs::File;
 
 /* 
@@ -24,7 +25,10 @@ pub fn password_validator(password: &str) {//-> bool {
 
 pub fn load_app() ->    Result<(), io::Error> {
     match File::open("database.db"){
-        Ok(file)=>controller_sql::set_database(),
+        Ok(file)=>{
+            controller_sql::set_database();
+            panel_loader();
+        },
         Err(error) => Err(error),
     }
    

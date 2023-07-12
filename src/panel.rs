@@ -10,7 +10,9 @@ use crate::controller_sql;
 
 
 
-
+pub fn panel_loader(){
+    
+}
 pub fn panel_login() {
     let contraseña_maestra = "12345678".to_string(); //for testing
 
