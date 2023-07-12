@@ -45,7 +45,6 @@ pub fn panel_main() {
     // 3. Listar todas las cuentas por nombre/fecha (cambia con cada seleccion)
     // 4. Salir
     // 5. poder elegir una cuenta para mostrar su información
-    std::process::exit(0);
 }
 
 fn sort_by_title() {
