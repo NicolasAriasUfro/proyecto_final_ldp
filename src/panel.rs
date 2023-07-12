@@ -17,7 +17,7 @@ pub fn panel_loader() -> std::io::Result<()> {
     match selection {
         Some(index) => {
             if index == 0 {
-                panel_login()
+                login()
             }
         }
         None => {
@@ -27,7 +27,7 @@ pub fn panel_loader() -> std::io::Result<()> {
     }
     Ok(())
 }
-fn panel_login() {
+fn login() {
     let contraseña_maestra = "12345678".to_string(); //for testing
 
     let password = Password::new()

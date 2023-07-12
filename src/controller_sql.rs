@@ -1,7 +1,7 @@
 use rusqlite::{params, Connection, Result, Error};
 use crate::controlador::manipular_info::info_almacenada::*;
 use std::fs;
-use crypto_base;
+use crate::controlador::manipular_info::crypto_base;
 use crate::controlador::manipular_info::crypto_base::Criptografia;
 use crate::controlador::manipular_info::info_almacenada;
 
