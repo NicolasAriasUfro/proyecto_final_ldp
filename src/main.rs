@@ -77,8 +77,8 @@ fn reconstruir_nonce(){
 }
 
 fn test_panel(){
-    //panel::App::panel_login();
-    panel::panel_main();
+    //panel::panel_main();
+    controlador::load_app();
 }
 
 fn comprobar_contra(){
