@@ -115,13 +115,17 @@ fn vista_for_selection() -> std::io::Result<()> {
     Ok(())
 }
 
+fn vista_for_create() -> std::io::Result<()>{
+    
+
+    Ok(())
+}
+
 fn vista_for_delete() {
     todo!()
 }
 
-fn vista_for_create(){
 
-}
 
 fn vista_for_update() {
     todo!()
