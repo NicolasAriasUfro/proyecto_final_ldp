@@ -11,7 +11,7 @@ use crate::controller_sql;
 
 
 pub fn panel_loader(){
-    
+
 }
 pub fn panel_login() {
     let contraseña_maestra = "12345678".to_string(); //for testing
@@ -24,13 +24,21 @@ pub fn panel_login() {
 
 // panel para crear la contraseña si la base de datos no existe, luego almacenarla en la base de datos y finalmente
 pub fn panel_register() {
-    // ingrese la contraseña maestra, esta debe tener como mínimo 8 caracteres.
-    // ingrese la contraseña nuevamente.
-    //
-    // si esta ok println!("contraseña creada con exito");
-    // se dirige al panel_main
-
-    todo!()
+    let password = Password::with_theme(&ColorfulTheme::default())
+        .with_prompt("Bienvenido a el mejor gestor de contraseñas en rust\n
+                      Primero, debes generar una contraseña maestra\n
+                      AVISO: SI OLVIDAS ESTA CONTRASEÑA, NO PODRAS RECUPERAR TU BASE DE DATOS")
+        .with_confirmation("Repite la contraseña", "Error: las contraseñas no coinciden.")
+        .validate_with(|input: &String| -> Result<(), &str> {
+            if input.len() > 7 {
+                Ok(())
+            } else {
+                Err("La contraseña debe contener a lo menos ocho caracteres")
+            }
+        })
+        .interact()
+        .unwrap();
+        
 }
 
 //panel principal de la aplicación, muestra todas las cuentas almacenadas con su titulo (si hay), user, url(si hay) y password
