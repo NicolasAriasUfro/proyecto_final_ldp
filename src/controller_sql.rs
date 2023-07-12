@@ -19,18 +19,12 @@ pub fn set_database() -> Result<()> {
         params![],
     )?;
 
-    conn.execute("CREATE TABLE IF NOT EXISTS master(hash_master TEXT NOT NULL,sal_master TEXT NOT NULL)", params![])?;
-
-    /*
     conn.execute(
-        " ALTER TABLE cuentas ADD nonce TEXT",
+        "CREATE TABLE IF NOT EXISTS master(
+            hash_master TEXT NOT NULL,
+            sal_master TEXT NOT NULL
+        )",
         params![])?;
-    */
-    /*
-    conn.execute(
-        " ALTER TABLE cuentas ADD fecha TEXT",
-        params![])?;
-    */
     Ok(())
 }
 ///Recibe una cuenta que ya tenga asignado su id,
