@@ -1,16 +1,19 @@
+use crate::controlador::manipular_info::comprobar_contra_maestra;
 use crate::controlador::manipular_info::crypto_base::crear_llave;
 use crate::controlador::manipular_info::crypto_base::hash_contra_maestra;
+use crate::controlador::manipular_info::crypto_base::Criptografia;
 use crate::controlador::manipular_info::info_almacenada::Entrada;
 use crate::controlador::*;
+use crate::controlador::manipular_info::iniciar_base_de_datos_existente;
 use crate::controller_sql;
 use crate::controller_sql::agregar_master;
 use crate::controller_sql::recuperar_datos_master;
+use crate::controller_sql::set_database;
 use dialoguer::{
     console::Term, theme::ColorfulTheme, Confirm, FuzzySelect, Input, Password, Select,
 };
 use manipular_info::info_almacenada::*;
 use std::slice::ChunksExact;
-use crate::controlador::manipular_info::crypto_base::Criptografia;
 
 pub fn panel_loader() -> std::io::Result<()> {
     let selection = Select::with_theme(&ColorfulTheme::default())
@@ -33,12 +36,21 @@ pub fn panel_loader() -> std::io::Result<()> {
     Ok(())
 }
 fn login() {
-    let contraseña_maestra = recuperar_datos_master(); //for testing
-
+    let contraseña_maestra = recuperar_datos_master();
+    let sal = &contraseña_maestra.unwrap().1;
+    let hash_almacenado = &contraseña_maestra.unwrap().0;
+    
     let password = Password::new()
         .with_prompt("Ingrese contraseña maestra:")
         .interact()
         .expect("Error al solicitar la contraseña, contraseña incorrecta");
+    if comprobar_contra_maestra(
+        &password,
+        sal,
+        hash_almacenado,
+    ) {
+        iniciar_base_de_datos_existente(&password, &sal);
+    }
 }
 
 // panel para crear la contraseña si la base de datos no existe, luego almacenarla en la base de datos y finalmente
@@ -62,11 +74,10 @@ pub fn panel_register() {
         })
         .interact()
         .unwrap();
-        
-        setear_llave_maestra(contra_maestra);
-        println!("Creacion exitosa");
-        panel_loader().unwrap();
-        
+    set_database();
+    setear_llave_maestra(contra_maestra);
+    println!("Creacion exitosa");
+    panel_loader().unwrap();
 }
 
 //panel principal de la aplicación, muestra todas las cuentas almacenadas con su titulo (si hay), user, url(si hay) y password
@@ -133,9 +144,13 @@ fn vista_for_selection() -> std::io::Result<()> {
     let default_choice_for_sort = false;
 
     let mut cuentas_con_formato = Vec::new();
-    let llave_temporal: [u8; 32] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32];
+    let llave_temporal: [u8; 32] = [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+        26, 27, 28, 29, 30, 31, 32,
+    ];
     let cifrador_temporal = Criptografia::new(&llave_temporal);
-    let mut lista_cuentas: Vec<Entrada> = controller_sql::listar_cuentas(&cifrador_temporal).unwrap();
+    let mut lista_cuentas: Vec<Entrada> =
+        controller_sql::listar_cuentas(&cifrador_temporal).unwrap();
     for i in 0..lista_cuentas.len() {
         let string_pusher_2 = format!(
             "{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
@@ -166,7 +181,7 @@ fn vista_for_selection() -> std::io::Result<()> {
     Ok(())
 }
 
-fn vista_for_create()-> std::io::Result<()>{
+fn vista_for_create() -> std::io::Result<()> {
     let title: String = Input::with_theme(&ColorfulTheme::default())
         .with_prompt("ingresa el titulo (presione enter))")
         .default("".to_string())
@@ -183,9 +198,12 @@ fn vista_for_create()-> std::io::Result<()>{
         .unwrap();
     let password = password_validator();
     let cuenta_a_subir = Entrada::new_creado(title, user, password, url);
-    let llave_temporal: [u8; 32] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32];
+    let llave_temporal: [u8; 32] = [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+        26, 27, 28, 29, 30, 31, 32,
+    ];
     let cifrador_temporal = Criptografia::new(&llave_temporal);
-    controller_sql::agregar_cuenta(&cuenta_a_subir,&cifrador_temporal).unwrap();
+    controller_sql::agregar_cuenta(&cuenta_a_subir, &cifrador_temporal).unwrap();
     Ok(())
 }
 
@@ -193,9 +211,13 @@ fn vista_for_delete() -> std::io::Result<()> {
     let default_choice_for_sort = false;
 
     let mut cuentas_con_formato = Vec::new();
-    let llave_temporal: [u8; 32] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32];
+    let llave_temporal: [u8; 32] = [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+        26, 27, 28, 29, 30, 31, 32,
+    ];
     let cifrador_temporal = Criptografia::new(&llave_temporal);
-    let mut lista_cuentas: Vec<Entrada> = controller_sql::listar_cuentas(&cifrador_temporal).unwrap();
+    let mut lista_cuentas: Vec<Entrada> =
+        controller_sql::listar_cuentas(&cifrador_temporal).unwrap();
     for i in 0..lista_cuentas.len() {
         let mut string_pusher_2 = format!(
             "{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
@@ -208,7 +230,6 @@ fn vista_for_delete() -> std::io::Result<()> {
         );
         cuentas_con_formato.push(string_pusher_2);
     }
-
 
     let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
         .with_prompt("Id       Titulo     Usuario    Contraseña fecha      Url     ")
@@ -236,7 +257,4 @@ fn vista_for_delete() -> std::io::Result<()> {
     Ok(())
 }
 
-
-fn cuenta_detallada(index: usize) {
-    
-}
+fn cuenta_detallada(index: usize) {}

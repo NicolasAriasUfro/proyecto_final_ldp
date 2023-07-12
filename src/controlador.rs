@@ -32,7 +32,7 @@ pub fn load_app() {
         }
     }else{
         panel_register();
-        set_database();
+        
     }
 }
 

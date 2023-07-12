@@ -1,3 +1,4 @@
+use core::slice::SlicePattern;
 use std::time::{self, UNIX_EPOCH};
 
 use crate::{controlador::manipular_info::crypto_base::{hash_contra_maestra, Criptografia}, controller_sql::agregar_master};
@@ -23,10 +24,10 @@ pub fn iniciar_nueva_base_de_datos(contra_maestra:&String)->Criptografia{
 
 }
 
-pub fn comprobar_contra_maestra(contra_entregada:&String,sal:&[u8;16],hash_almacenado:&String)->bool{
+pub fn comprobar_contra_maestra(contra_entregada:&String,sal:&[u8;16],hash_almacenado:&Vec<u8>)->bool{
     //let sal: &[u8; 16]=sal.try_into().expect("sal no tenia 16 caracteres o no era byte");
     let hash_contra_entregada=hash_contra_maestra(contra_entregada.as_bytes(), sal);
-    hash_entregado_valido(&hash_contra_entregada, hash_almacenado.as_bytes())
+    hash_entregado_valido(&hash_contra_entregada, hash_almacenado.as_slice())
 
 }
 

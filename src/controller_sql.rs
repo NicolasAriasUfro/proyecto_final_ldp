@@ -38,8 +38,7 @@ pub fn set_database() -> Result<()> {
         params![])?;
     Ok(())
 }
-///Recibe una cuenta que ya tenga asignado su id,
-/// y actualiza todos los demás campos en la base de datos.
+
 fn actualizar_cuenta(cuenta: &Entrada,cifrador:&Criptografia) -> Result<()> {
     let contra_cifrada = &cuenta.cifrar_contra(cifrador);
     let conn = Connection::open("database.db")?;
