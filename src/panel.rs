@@ -117,7 +117,7 @@ fn vista_for_update() {
 }
 
 // este panel debe mostrar el contenido de la contraseña una vez se escoja una
-fn panel_contenido(cuenta: String) {
+fn vista_for_contenido(cuenta: String) {
     todo!()
 
     //esta funcion muestra el contenido de la cuenta
