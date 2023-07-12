@@ -84,6 +84,7 @@ pub fn seleccionar() -> std::io::Result<()> {
 fn vista_for_selection() -> std::io::Result<()> {
     let default_choice_for_sort = false;
 
+
     let mut cuentas_con_formato = Vec::new();
     let mut lista_cuentas:Vec<Entrada> = controller_sql::lista_cuentas();
     for i in 0..lista_cuentas.len(){
