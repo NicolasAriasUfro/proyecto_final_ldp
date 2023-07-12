@@ -1,6 +1,6 @@
 use std::slice::ChunksExact;
 
-use dialoguer::{console::Term, theme::ColorfulTheme, FuzzySelect, Password, Select, Input};
+use dialoguer::{console::Term, theme::ColorfulTheme, FuzzySelect, Password, Select, Input, Confirm};
 
 use crate::controlador::*;
 use manipular_info::info_almacenada::*;
@@ -61,6 +61,10 @@ pub fn panel_main() {
 }
 
 fn sort_by_title() {
+    
+    
+    
+    
     todo!()
 }
 
@@ -150,7 +154,43 @@ fn vista_for_create() {
 }
 
 fn vista_for_delete() {
-    todo!()
+    let default_choice_for_sort = false;
+
+
+    let mut cuentas_con_formato = Vec::new();
+    let mut lista_cuentas:Vec<Entrada> = controller_sql::listar_cuentas().unwrap();
+    for i in 0..lista_cuentas.len(){
+        let mut string_pusher_2 = format!("{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
+                                          lista_cuentas[i].id,
+                                          lista_cuentas[i].titulo.clone().unwrap(),
+                                          lista_cuentas[i].nombre_usuario,
+                                          lista_cuentas[i].contrasena,
+                                          lista_cuentas[i].fecha_creacion,
+                                          lista_cuentas[i].url.clone().unwrap());
+        cuentas_con_formato.push(string_pusher_2);
+    }
+
+    let selection = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("Id       Titulo     Usuario    Contraseña fecha      Url     ")
+        .items(&cuentas_con_formato)
+        .default(0)
+        .interact_on_opt(&Term::stderr())?;
+
+    match selection {
+        Some(index) => {
+
+            if Confirm::new().with_prompt("Do you want to continue?").interact()? {
+                println!("Looks like you want to continue");
+                controller_sql::eliminar_cuenta(&lista_cuentas[index]).expect("no se ha podido eliminar la cuenta");
+            } else {
+                println!("nevermind then :(");
+            }
+
+        }
+        None => {
+            println!("Regresando")
+        }
+    }
 }
 
 
