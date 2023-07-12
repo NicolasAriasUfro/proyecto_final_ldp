@@ -92,7 +92,7 @@ fn sort_by_title() {
     todo!()
 }
 
-pub fn seleccionar(&cifrador: &Criptografia) -> std::io::Result<()> {
+pub fn seleccionar(cifrador: &Criptografia) -> std::io::Result<()> {
     let items = vec![
         "Ver cuentas",
         "Crear cuenta nueva",
@@ -141,7 +141,7 @@ fn instrucciones() {
         .unwrap();
 }
 
-fn vista_for_selection(&cifrador: &Criptografia) -> std::io::Result<()> {
+fn vista_for_selection(cifrador: &Criptografia) -> std::io::Result<()> {
     let default_choice_for_sort = false;
 
     let mut cuentas_con_formato = Vec::new();
