@@ -1,5 +1,11 @@
 use rusqlite::{params, Connection, Result, Error};
 use crate::controlador::manipular_info::info_almacenada::*;
+use std::fs;
+
+pub fn existe_la_base_de_datos() -> bool {
+    let ruta_archivo = "./database.db";
+    fs::metadata(ruta_archivo).is_ok()
+}
 
 
 pub fn set_database() -> Result<()> {
