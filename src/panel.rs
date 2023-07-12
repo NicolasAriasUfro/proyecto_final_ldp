@@ -63,13 +63,13 @@ pub fn seleccionar() -> std::io::Result<()> {
     match selection {
         Some(index) => {
             if index == 0 {
-                vista_for_selection()?;
+                vista_for_selection()?
             }
             if index == 1 {
-                println!("agua")
+                vista_for_create()
             }
             if index == 2 {
-                println!("tierra")
+                vista_for_delete()
             }
         }
         None => {
@@ -117,6 +117,10 @@ fn vista_for_selection() -> std::io::Result<()> {
 
 fn vista_for_delete() {
     todo!()
+}
+
+fn vista_for_create(){
+
 }
 
 fn vista_for_update() {
