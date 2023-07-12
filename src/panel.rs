@@ -157,7 +157,7 @@ fn vista_for_selection() -> std::io::Result<()> {
             lista_cuentas[i].id,
             lista_cuentas[i].titulo.clone(),
             lista_cuentas[i].nombre_usuario,
-            lista_cuentas[i].contrasena,
+            "********"/*lista_cuentas[i].contrasena*/,
             lista_cuentas[i].fecha_creacion,
             lista_cuentas[i].url.clone()
         );
@@ -172,7 +172,7 @@ fn vista_for_selection() -> std::io::Result<()> {
 
     match selection {
         Some(index) => {
-            cuenta_detallada(index);
+            cuenta_detallada(&lista_cuentas[index]).expect("no se puede seleccionar la cuenta");
         }
         None => {
             println!("Regresando")
@@ -257,4 +257,32 @@ fn vista_for_delete() -> std::io::Result<()> {
     Ok(())
 }
 
-fn cuenta_detallada(index: usize) {}
+
+fn cuenta_detallada(cuenta: &Entrada) -> std::io::Result<()>  {
+    let mut cuenta_con_formato = Vec::new();
+    let llave_temporal: [u8; 32] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32];
+    let cifrador_temporal = Criptografia::new(&llave_temporal);
+
+
+    let string_pusher_2 = format!(
+        "{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
+        &cuenta.id,
+        &cuenta.titulo.clone(),
+        &cuenta.nombre_usuario,
+        &cuenta.contrasena,
+        &cuenta.fecha_creacion,
+        &cuenta.url.clone()
+        );
+
+    cuenta_con_formato.push(string_pusher_2);
+
+
+    let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
+        .with_prompt("Id       Titulo     Usuario    Contraseña fecha      Url     ")
+        .items(&cuenta_con_formato)
+        .default(0)
+        .interact_on_opt(&Term::stderr())?;
+
+    Ok(())
+
+}
