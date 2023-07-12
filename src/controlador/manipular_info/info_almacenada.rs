@@ -7,12 +7,12 @@ use super::crypto_base::{Criptografia, crear_nonce};
 #[derive(Debug)]
 pub struct Entrada {
     pub(crate) id: u64,
-    pub titulo:Option< String>,
+    pub titulo:String,
     pub nombre_usuario: String,
     pub contrasena: String,
     pub(crate) nonce: [u8; 12],
     pub(crate) fecha_creacion: u64,
-    pub url: Option<String>,
+    pub url: String,
 }
 
 impl Entrada {
@@ -25,14 +25,7 @@ impl Entrada {
         fecha_creacion: u64,
         url: String,
     ) -> Self {
-        let titulo=match titulo.as_str(){
-            ""=>None,
-            _=>Some(titulo)
-        };
-        let url=match url.as_str(){
-            ""=>None,
-            _=>Some(url)
-        };
+        
         Self {
             id,
             titulo,
@@ -50,14 +43,6 @@ impl Entrada {
         contrasena: String,
         url: String,
     ) -> Self {
-        let titulo=match titulo.as_str(){
-            ""=>None,
-            _=>Some(titulo)
-        };
-        let url=match url.as_str(){
-            ""=>None,
-            _=>Some(url)
-        };
 
         let nonce=crear_nonce();
         let fecha_creacion = time::SystemTime::now()
@@ -78,7 +63,7 @@ impl Entrada {
     pub fn set_id(&mut self, nueva_id: u64) {
         self.id = nueva_id;
     }
-    pub fn set_titulo(&mut self,nuevo_titulo:Option<String>)->bool{
+    pub fn set_titulo(&mut self,nuevo_titulo:String)->bool{
         
         self.titulo=nuevo_titulo;
         true

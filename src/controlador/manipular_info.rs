@@ -10,14 +10,14 @@ pub mod info_almacenada;
 
 
 fn modificar_titulo(entrada: &mut Entrada, titulo_nuevo: String) {
-    let titulo_asignable;
-    if titulo_nuevo.trim()==""{
+    //let titulo_asignable;
+    /*if titulo_nuevo.trim()==""{
         titulo_asignable=None;
     }
     else{
         titulo_asignable=Some(titulo_nuevo);
-    }
-    entrada.set_titulo(titulo_asignable);
+    }*/
+    entrada.set_titulo(titulo_nuevo);
 }
 
 

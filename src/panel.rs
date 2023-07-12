@@ -132,11 +132,11 @@ fn vista_for_selection() -> std::io::Result<()> {
         let string_pusher_2 = format!(
             "{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
             lista_cuentas[i].id,
-            lista_cuentas[i].titulo.clone().unwrap(),
+            lista_cuentas[i].titulo.clone(),
             lista_cuentas[i].nombre_usuario,
             lista_cuentas[i].contrasena,
             lista_cuentas[i].fecha_creacion,
-            lista_cuentas[i].url.clone().unwrap()
+            lista_cuentas[i].url.clone()
         );
         cuentas_con_formato.push(string_pusher_2);
     }
@@ -192,11 +192,11 @@ fn vista_for_delete() -> std::io::Result<()> {
         let mut string_pusher_2 = format!(
             "{:<8} {:<8} {:<8} {:<8} {:<8} {:<8}",
             lista_cuentas[i].id,
-            lista_cuentas[i].titulo.clone().unwrap(),
+            lista_cuentas[i].titulo.clone(),
             lista_cuentas[i].nombre_usuario,
             lista_cuentas[i].contrasena,
             lista_cuentas[i].fecha_creacion,
-            lista_cuentas[i].url.clone().unwrap()
+            lista_cuentas[i].url.clone()
         );
         cuentas_con_formato.push(string_pusher_2);
     }
