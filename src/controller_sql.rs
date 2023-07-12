@@ -1,4 +1,4 @@
-use rusqlite::{params, Connection, Result};
+use rusqlite::{params, Connection, Result, Error};
 use crate::controlador::manipular_info::info_almacenada::*;
 
 pub fn set_database() -> Result<()> {
@@ -69,7 +69,14 @@ pub fn agregar_cuenta(cuenta:&Entrada) -> Result<()>{
     )?;
     Ok(())
 }
-pub fn listar_cuentas()-> Result<()>{
+
+
+///La función consulta por las cuentas que están en la base de datos,
+/// y la devuelve con todos sus parámetros.
+/// # return
+/// Ok(Vec<Entrada>)
+pub fn listar_cuentas()-> Result<Vec<Entrada>,Error>{
+    let mut vec_cuentas:Vec<Entrada> = vec![];
     let conn = Connection::open("database.db")?;
     let mut stmt = conn.prepare(
         "SELECT id, title, user_name, hash_password, nonce, fecha, url from cuentas")?;
@@ -88,9 +95,10 @@ pub fn listar_cuentas()-> Result<()>{
     })?;//ver formas de devolver cuentas_row para ser usada por panel
     for cuenta in cuentas_rows{
         let cuenta = cuenta?;
-        println!("{:#?}",cuenta)
+        vec_cuentas.push(cuenta);
+        //println!("{:#?}",cuenta)
     }
 
-    Ok(())
+    Ok(vec_cuentas)
 
 }
