@@ -58,7 +58,7 @@ pub fn crear_sal()->[u8;16]{
 
 pub fn crear_llave(clave:&String,buffer_salida_llave:&mut [u8;32],salida_sal:&mut [u8;16]){
     let sha_key=sha256::digest(clave.clone());
-    let mut salt=crear_sal();
+    let salt=crear_sal();
     Argon2::default().hash_password_into(sha_key.as_bytes(), &salt, buffer_salida_llave).unwrap();
     *salida_sal=salt;
 }

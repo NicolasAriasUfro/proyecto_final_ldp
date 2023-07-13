@@ -150,7 +150,7 @@ fn vista_for_selection(cifrador: &Criptografia) -> std::io::Result<()> {
         controller_sql::listar_cuentas(&cifrador).unwrap();
     for i in 0..lista_cuentas.len() {
         let string_pusher_2 = format!(
-            "{:<4}|{:<12}|{:<20}|{:<16}|{:<10}|{:<8}",
+            "{:<4}|{:<13}|{:<20}|{:<16}|{:<10}|{:<8}",
             lista_cuentas[i].id,
             lista_cuentas[i].titulo.clone(),
             lista_cuentas[i].nombre_usuario,
@@ -162,7 +162,7 @@ fn vista_for_selection(cifrador: &Criptografia) -> std::io::Result<()> {
     }
 
     let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
-        .with_prompt("Id  |Titulo       |Usuario             |Contraseña      |Fecha     | Url                  ")
+        .with_prompt("Id  |Titulo        |Usuario             |Contraseña      |Fecha     | Url                  ")
         .items(&cuentas_con_formato)
         .default(0)
         .interact_on_opt(&Term::stderr())?;
@@ -196,6 +196,7 @@ fn vista_for_create(cifrador: &Criptografia) -> std::io::Result<()> {
     let password = password_validator();
     let cuenta_a_subir = Entrada::new_creado(title, user, password, url);
     controller_sql::agregar_cuenta(&cuenta_a_subir, &cifrador).unwrap();
+    println!("cuenta creada exitosamente");
     Ok(())
 }
 
@@ -219,7 +220,7 @@ fn vista_for_delete(cifrador: &Criptografia) -> std::io::Result<()> {
     }
 
     let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
-        .with_prompt("Id  |Titulo       |Usuario             |Contraseña      |Fecha     | Url                  ")
+        .with_prompt("Id  |Titulo      |Usuario             |Contraseña      |Fecha     | Url                  ")
         .items(&cuentas_con_formato)
         .default(0)
         .interact_on_opt(&Term::stderr())?;
@@ -261,7 +262,7 @@ fn cuenta_detallada(cuenta: &Entrada) -> std::io::Result<()> {
     clipboard_generic::copiar_al_portapapeles(&cuenta.contrasena);
 
     let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
-        .with_prompt("Id  |Titulo       |Usuario             |Contraseña      |Fecha     | Url                  ")
+        .with_prompt("Id  |Titulo            |Usuario             |Contraseña      |Fecha     | Url                  ")
         .items(&cuenta_con_formato)
         .default(0)
         .interact_on_opt(&Term::stderr())?;
