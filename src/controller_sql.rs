@@ -65,8 +65,6 @@ pub fn eliminar_cuenta(cuenta:&Entrada) -> Result<()>{
 
 }
 
-/// Ingresa una cuenta a la base de datos, donde se le asigna un id automáticamente
-/// La cuenta debe tener cifrada el atributo contraseña
 pub fn agregar_cuenta(cuenta:&Entrada,cifrador:&Criptografia) -> Result<()>{
     let contra_cifrada = &cuenta.cifrar_contra(cifrador);
 
@@ -99,11 +97,10 @@ pub fn listar_cuentas(cifrador: &Criptografia)-> Result<Vec<Entrada>,Error>{
             row.get(6)?
         )
         )
-    })?;//ver formas de devolver cuentas_row para ser usada por panel
+    })?;
     for cuenta in cuentas_rows{
         let cuenta = cuenta?;
         vec_cuentas.push(cuenta);
-        //println!("{:#?}",cuenta)
     }
 
     Ok(vec_cuentas)
@@ -114,7 +111,6 @@ pub fn recuperar_datos_master()->Result<(Vec<u8>,[u8;16]),Error>{
     let conn = Connection::open("database.db")?;
     let mut stmt = conn.prepare(
         "SELECT hash_master,sal_master from master")?;
-    //let mut par:MasterRec;
     let mut master_rows=stmt.query_map([], |row|{
         Ok(
         MasterData{

@@ -7,7 +7,6 @@ pub mod info_almacenada;
 
 
 pub fn comprobar_contra_maestra(contra_entregada:&String,sal:&[u8;16],hash_almacenado:&Vec<u8>)->bool{
-    //let sal: &[u8; 16]=sal.try_into().expect("sal no tenia 16 caracteres o no era byte");
     let hash_contra_entregada=hash_contra_maestra(contra_entregada.as_bytes(), sal);
     hash_entregado_valido(&hash_contra_entregada, hash_almacenado.as_slice())
 }
