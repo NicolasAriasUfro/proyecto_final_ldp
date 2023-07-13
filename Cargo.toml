@@ -11,6 +11,7 @@ aes-gcm-siv="0.11.1"
 rand_chacha="0.3.1"
 base64="0.21.2"
 clipboard-win = "4.5.0"
+chrono = "0.4.26"
 dialoguer = { version = "0.10.4", features = ["fuzzy-select"] }
 rusqlite = { version = "0.29.0", features = ["bundled"] }
 clipboard = "0.5.0"
