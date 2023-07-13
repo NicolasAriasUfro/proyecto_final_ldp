@@ -45,7 +45,7 @@ fn login() {
     let hash_almacenado = &contraseña_maestra.0;
 
     let password = Password::new()
-        .with_prompt("Ingrese contraseña maestra:")
+        .with_prompt("Ingrese contraseña maestra")
         .interact()
         .expect("Error al solicitar la contraseña, contraseña incorrecta");
     if comprobar_contra_maestra(&password, sal, hash_almacenado) {
