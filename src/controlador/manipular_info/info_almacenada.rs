@@ -1,8 +1,6 @@
 use core::panic;
 use std::time::{self, UNIX_EPOCH};
 
-use base64::{engine::general_purpose, Engine};
-
 use super::crypto_base::{Criptografia, crear_nonce};
 #[derive(Debug)]
 pub struct Entrada {
