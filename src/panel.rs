@@ -12,7 +12,6 @@ use dialoguer::{
     console::Term, theme::ColorfulTheme, Confirm, FuzzySelect, Input, Password, Select,
 };
 use crate::controlador::manipular_info::generador_contra::generar_contra;
-use crate::controlador::manipular_info::generador_contra::TipoContra;
 use crate::controlador::manipular_info::generador_contra::TipoContra::{ALFABETICO, ALFANUMERICO, ALFANUMERICOEXT, NUMERICO};
 
 pub fn panel_loader() -> std::io::Result<()> {
