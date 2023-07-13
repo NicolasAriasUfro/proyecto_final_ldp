@@ -11,6 +11,9 @@ use chrono::Utc;
 use dialoguer::{
     console::Term, theme::ColorfulTheme, Confirm, FuzzySelect, Input, Password, Select,
 };
+use crate::controlador::manipular_info::generador_contra::generar_contra;
+use crate::controlador::manipular_info::generador_contra::TipoContra;
+use crate::controlador::manipular_info::generador_contra::TipoContra::{ALFABETICO, ALFANUMERICO, ALFANUMERICOEXT, NUMERICO};
 
 /*
 use manipular_info::info_almacenada::*;
@@ -94,6 +97,7 @@ pub fn seleccionar(cifrador: &Criptografia) -> std::io::Result<()> {
         "Crear cuenta nueva",
         "Borrar cuenta",
         "instrucciones",
+        "Crear contraseña aleatoria"
     ];
     println!("para salir presione esc");
     let selection = Select::with_theme(&ColorfulTheme::default())
@@ -115,6 +119,9 @@ pub fn seleccionar(cifrador: &Criptografia) -> std::io::Result<()> {
             }
             if index == 3 {
                 instrucciones()
+            }
+            if index == 4 {
+                contrasena_aleatoria()?
             }
         }
         None => {
@@ -264,5 +271,44 @@ fn cuenta_detallada(cuenta: &Entrada) -> std::io::Result<()> {
         .default(0)
         .interact_on_opt(&Term::stderr())?;
 
+    Ok(())
+}
+fn contrasena_aleatoria() -> std::io::Result<()> {
+    let opciones = vec!["Alfabética","Numérica","Alfanumérica","Con Carácteres Especiales"];// todo: cambiar el nombre de full
+
+    let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
+        .with_prompt("Indique el tipo de contraseña requerido")
+        .items(&opciones)
+        .default(0)
+        .interact_on_opt(&Term::stderr())?;
+    let mut contrasena_generada= String::from("");
+    match selection {
+        Some(index) => {
+            if index == 0 {
+                contrasena_generada = generar_contra(ALFABETICO, 10)
+            }
+            if index == 1 {
+                contrasena_generada = generar_contra(NUMERICO, 10)
+            }
+            if index == 2 {
+                contrasena_generada = generar_contra(ALFANUMERICO, 10)
+            }
+            if index == 3 {
+                contrasena_generada = generar_contra(ALFANUMERICOEXT, 10)
+            }
+        }
+        None => {
+            println!("Regresando")
+        }
+    }
+    let _texto: String = Input::with_theme(&ColorfulTheme::default())
+        .with_prompt(
+            contrasena_generada,
+        )
+        .default("".to_string())
+        .interact_text()
+        .unwrap();
+
+    generar_contra(ALFABETICO,9);
     Ok(())
 }
