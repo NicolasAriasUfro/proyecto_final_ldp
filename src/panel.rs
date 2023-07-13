@@ -83,7 +83,7 @@ pub fn panel_register() {
     panel_loader().unwrap();
 }
 
-//panel principal de la aplicación, muestra todas las cuentas almacenadas con su titulo (si hay), user, url(si hay) y password
+//main del panel
 pub fn panel_main(cifrador: Criptografia) {
     loop {
         seleccionar(&cifrador).unwrap();
@@ -132,8 +132,10 @@ pub fn seleccionar(cifrador: &Criptografia) -> std::io::Result<()> {
 fn instrucciones() {
     let texto: String = Input::with_theme(&ColorfulTheme::default())
         .with_prompt(
-            "Para manejar el programa use las teclas enter y barra espaciadora\n
-                  Volver atras: esc",
+            "Para manejar el programa use las teclas enter para confirmar
+  flecha arriba/abajo: para navegar por el menu
+  Volver atras: esc
+  para salir de este menu, presione enter",
         )
         .default("".to_string())
         .interact_text()

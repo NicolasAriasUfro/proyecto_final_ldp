@@ -16,4 +16,3 @@ mod controlador;
 fn main() {
     controlador::load_app();
 }
-
