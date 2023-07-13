@@ -12,11 +12,6 @@ use dialoguer::{
     console::Term, theme::ColorfulTheme, Confirm, FuzzySelect, Input, Password, Select,
 };
 
-/*
-use manipular_info::info_almacenada::*;
-use std::slice::ChunksExact;
- */
-
 pub fn panel_loader() -> std::io::Result<()> {
     let selection = Select::with_theme(&ColorfulTheme::default())
         .with_prompt("Bienvenido, presione enter para logear\nesc para salir")
@@ -58,8 +53,14 @@ pub fn panel_register() {
     let contra_maestra = Password::with_theme(&ColorfulTheme::default())
         .with_prompt(
             "Bienvenido a el mejor gestor de contraseñas en rust
-  Primero, debes generar una contraseña maestra
-  AVISO: SI OLVIDAS ESTA CONTRASEÑA, NO PODRAS RECUPERAR TU BASE DE DATOS",
+  Instrucciones:
+  Para manejar el programa use las teclas enter para confirmar
+  flecha arriba/abajo: para navegar por el menu
+  Volver atras: esc
+  A continuación, crea tu contraseña maestra
+  
+  AVISO: SI OLVIDAS ESTA CONTRASEÑA, NO PODRAS RECUPERAR TU BASE DE DATOS
+  ",
         )
         .with_confirmation(
             "Repite la contraseña",
@@ -114,7 +115,7 @@ pub fn seleccionar(cifrador: &Criptografia) -> std::io::Result<()> {
                 vista_for_delete(&cifrador)?
             }
             if index == 3 {
-                instrucciones()
+                todo!()
             }
         }
         None => {
@@ -126,18 +127,6 @@ pub fn seleccionar(cifrador: &Criptografia) -> std::io::Result<()> {
     Ok(())
 }
 
-fn instrucciones() {
-    let _texto: String = Input::with_theme(&ColorfulTheme::default())
-        .with_prompt(
-            "Para manejar el programa use las teclas enter para confirmar
-  flecha arriba/abajo: para navegar por el menu
-  Volver atras: esc
-  para salir de este menu, presione enter",
-        )
-        .default("".to_string())
-        .interact_text()
-        .unwrap();
-}
 
 fn vista_for_selection(cifrador: &Criptografia) -> std::io::Result<()> {
     let mut cuentas_con_formato = Vec::new();
