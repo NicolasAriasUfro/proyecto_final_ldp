@@ -12,7 +12,9 @@ pub fn load_app() {
         }
     }else{
         panel_register();
-        
+        loop{
+            panel_loader().unwrap();
+        }
     }
 }
 
@@ -30,15 +32,6 @@ pub fn password_validator() -> String {
         .unwrap();
     password
 }
-/* 
-pub fn validar_llave_maestra(contra_recibida:&[u8],sal:&[u8;16])->bool{
-    //recuperar de la base de datos
-    let hash_guardado:String=String::new();
-    let hash_guardado=hash_guardado.as_bytes().to_owned();
-    let hash_calculado=hash_contra_maestra(contra_recibida, sal);
-    hash_guardado==hash_calculado
-}
-*/
 
 pub fn setear_llave_maestra(contra: String) -> std::io::Result<()>{
     let mut sal=[0u8;16];
