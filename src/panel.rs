@@ -1,18 +1,14 @@
 use crate::controlador::manipular_info::comprobar_contra_maestra;
-use crate::controlador::manipular_info::crypto_base::crear_llave;
-use crate::controlador::manipular_info::crypto_base::hash_contra_maestra;
 use crate::controlador::manipular_info::crypto_base::Criptografia;
 use crate::controlador::manipular_info::info_almacenada::Entrada;
 use crate::controlador::manipular_info::iniciar_base_de_datos_existente;
 use crate::controlador::*;
-use crate::controller_sql::agregar_master;
 use crate::controller_sql::recuperar_datos_master;
 use crate::controller_sql::set_database;
 use crate::{clipboard_generic, controller_sql};
 use dialoguer::{
     console::Term, theme::ColorfulTheme, Confirm, FuzzySelect, Input, Password, Select,
 };
-
 
 /*
 use manipular_info::info_almacenada::*;
@@ -90,7 +86,6 @@ pub fn panel_main(cifrador: Criptografia) {
     }
 }
 
-
 pub fn seleccionar(cifrador: &Criptografia) -> std::io::Result<()> {
     let items = vec![
         "Ver cuentas",
@@ -143,11 +138,9 @@ fn instrucciones() {
 }
 
 fn vista_for_selection(cifrador: &Criptografia) -> std::io::Result<()> {
-
     let mut cuentas_con_formato = Vec::new();
 
-    let lista_cuentas: Vec<Entrada> =
-        controller_sql::listar_cuentas(&cifrador).unwrap();
+    let lista_cuentas: Vec<Entrada> = controller_sql::listar_cuentas(&cifrador).unwrap();
     for i in 0..lista_cuentas.len() {
         let string_pusher_2 = format!(
             "{:<4}|{:<13}|{:<20}|{:<16}|{:<10}|{:<8}",
@@ -201,11 +194,9 @@ fn vista_for_create(cifrador: &Criptografia) -> std::io::Result<()> {
 }
 
 fn vista_for_delete(cifrador: &Criptografia) -> std::io::Result<()> {
-
     let mut cuentas_con_formato = Vec::new();
 
-    let lista_cuentas: Vec<Entrada> =
-        controller_sql::listar_cuentas(&cifrador).unwrap();
+    let lista_cuentas: Vec<Entrada> = controller_sql::listar_cuentas(&cifrador).unwrap();
     for i in 0..lista_cuentas.len() {
         let string_pusher_2 = format!(
             "{:<4}|{:<12}|{:<20}|{:<16}|{:<10}|{:<8}",
@@ -228,12 +219,12 @@ fn vista_for_delete(cifrador: &Criptografia) -> std::io::Result<()> {
     match selection {
         Some(index) => {
             if Confirm::new()
-                .with_prompt("Do you want to continue?")
-                .interact()?
-            {
-                println!("Looks like you want to continue");
+            .with_prompt("¿quieres borrar la contraseña?")
+            .interact()? {
                 controller_sql::eliminar_cuenta(&lista_cuentas[index])
                     .expect("no se ha podido eliminar la cuenta");
+
+                println!("Cuenta eliminada");
             } else {
                 println!("nevermind then :(");
             }

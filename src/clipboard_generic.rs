@@ -1,8 +1,6 @@
 use clipboard::{ClipboardProvider, ClipboardContext};
 
-/// Esta funcion copia un str al portapapeles de windows
-/// # Arguments
-/// * `texto` es la cadena que se copiará al portapapeles
+
 pub fn copiar_al_portapapeles(texto: &str) {
     let mut ctx:ClipboardContext=ClipboardProvider::new().unwrap();
     // Copiar texto al portapapeles
