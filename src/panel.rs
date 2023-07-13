@@ -193,7 +193,7 @@ fn vista_for_delete(cifrador: &Criptografia) -> std::io::Result<()> {
     for i in 0..lista_cuentas.len() {
         let datetime=Utc.timestamp_opt(lista_cuentas[i].fecha_creacion as i64,0).unwrap();
         let string_pusher_2 = format!(
-            "{:<4}|{:<12}|{:<20}|{:<16}|{:<10}|{:<8}",
+            "{:<4}|{:<13}|{:<20}|{:<16}|{:<10}|{:<8}",
             lista_cuentas[i].id,
             lista_cuentas[i].titulo.clone(),
             lista_cuentas[i].nombre_usuario,
@@ -236,7 +236,7 @@ fn cuenta_detallada(cuenta: &Entrada) -> std::io::Result<()> {
 
 
     let string_pusher_2 = format!(
-        "{:<4}|{:<12}|{:<20}|{:<16}|{:<10}|{:<8}",
+        "{:<4}|{:<13}|{:<20}|{:<16}|{:<10}|{:<8}",
         &cuenta.id,
         &cuenta.titulo.clone(),
         &cuenta.nombre_usuario,
