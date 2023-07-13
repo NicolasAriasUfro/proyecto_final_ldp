@@ -88,17 +88,6 @@ pub fn descifrar_contra(contra_cifrada:Vec<u8>,nonce:Vec<u8>,cifrador:&Criptogra
     }
 }
 
-pub fn recrear_nonce(nonce:String)->[u8;12]{
-    let nonce=general_purpose::STANDARD_NO_PAD.decode(nonce).unwrap();
-    if nonce.len()!=12{
-        panic!("mala longitud del nonce {:?}, esperaba 12 y obtuvo {}",nonce,nonce.len());
-    }
-    let mut nonce_rebuilt=[0u8;12];
-    for i in 0..nonce_rebuilt.len(){
-        nonce_rebuilt[i]=nonce[i];
-    }
-    nonce_rebuilt
-}
 
 
 pub type ArbolEntrada=NodoEntrada;
