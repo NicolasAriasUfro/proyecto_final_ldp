@@ -6,6 +6,8 @@ use crate::controlador::*;
 use crate::controller_sql::recuperar_datos_master;
 use crate::controller_sql::set_database;
 use crate::{clipboard_generic, controller_sql};
+use chrono::TimeZone;
+use chrono::Utc;
 use dialoguer::{
     console::Term, theme::ColorfulTheme, Confirm, FuzzySelect, Input, Password, Select,
 };
@@ -142,13 +144,14 @@ fn vista_for_selection(cifrador: &Criptografia) -> std::io::Result<()> {
 
     let lista_cuentas: Vec<Entrada> = controller_sql::listar_cuentas(&cifrador).unwrap();
     for i in 0..lista_cuentas.len() {
+        let datetime=Utc.timestamp_opt(lista_cuentas[i].fecha_creacion as i64,0).unwrap();
         let string_pusher_2 = format!(
             "{:<4}|{:<13}|{:<20}|{:<16}|{:<10}|{:<8}",
             lista_cuentas[i].id,
             lista_cuentas[i].titulo.clone(),
             lista_cuentas[i].nombre_usuario,
             "********", /*lista_cuentas[i].contrasena*/
-            lista_cuentas[i].fecha_creacion,
+            datetime.to_rfc3339()[0..10].to_owned(),
             lista_cuentas[i].url.clone()
         );
         cuentas_con_formato.push(string_pusher_2);
@@ -198,13 +201,14 @@ fn vista_for_delete(cifrador: &Criptografia) -> std::io::Result<()> {
 
     let lista_cuentas: Vec<Entrada> = controller_sql::listar_cuentas(&cifrador).unwrap();
     for i in 0..lista_cuentas.len() {
+        let datetime=Utc.timestamp_opt(lista_cuentas[i].fecha_creacion as i64,0).unwrap();
         let string_pusher_2 = format!(
             "{:<4}|{:<12}|{:<20}|{:<16}|{:<10}|{:<8}",
             lista_cuentas[i].id,
             lista_cuentas[i].titulo.clone(),
             lista_cuentas[i].nombre_usuario,
             lista_cuentas[i].contrasena,
-            lista_cuentas[i].fecha_creacion,
+            datetime.to_rfc3339()[0..10].to_owned(),
             lista_cuentas[i].url.clone()
         );
         cuentas_con_formato.push(string_pusher_2);
@@ -238,6 +242,8 @@ fn vista_for_delete(cifrador: &Criptografia) -> std::io::Result<()> {
 
 fn cuenta_detallada(cuenta: &Entrada) -> std::io::Result<()> {
     let mut cuenta_con_formato = Vec::new();
+    let datetime=Utc.timestamp_opt(cuenta.fecha_creacion as i64,0).unwrap();
+
 
     let string_pusher_2 = format!(
         "{:<4}|{:<12}|{:<20}|{:<16}|{:<10}|{:<8}",
@@ -245,7 +251,7 @@ fn cuenta_detallada(cuenta: &Entrada) -> std::io::Result<()> {
         &cuenta.titulo.clone(),
         &cuenta.nombre_usuario,
         &cuenta.contrasena,
-        &cuenta.fecha_creacion,
+        datetime.to_rfc3339()[0..10].to_owned(),
         &cuenta.url.clone()
     );
 
