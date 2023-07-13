@@ -286,14 +286,13 @@ fn contrasena_aleatoria() -> std::io::Result<()> {
             println!("Regresando")
         }
     }
+    clipboard_generic::copiar_al_portapapeles(&contrasena_generada);
     let _texto: String = Input::with_theme(&ColorfulTheme::default())
         .with_prompt(
-            contrasena_generada,
+            &contrasena_generada,
         )
         .default("".to_string())
         .interact_text()
         .unwrap();
-
-    generar_contra(ALFABETICO,9);
     Ok(())
 }
