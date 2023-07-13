@@ -141,7 +141,7 @@ fn vista_for_selection(cifrador: &Criptografia) -> std::io::Result<()> {
             lista_cuentas[i].id,
             lista_cuentas[i].titulo.clone(),
             lista_cuentas[i].nombre_usuario,
-            "********", /*lista_cuentas[i].contrasena*/
+            "********",
             datetime.to_rfc3339()[0..10].to_owned(),
             lista_cuentas[i].url.clone()
         );
@@ -149,7 +149,7 @@ fn vista_for_selection(cifrador: &Criptografia) -> std::io::Result<()> {
     }
 
     let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
-        .with_prompt("Id  |Titulo        |Usuario             |Contraseña      |Fecha     | Url                  ")
+        .with_prompt("Id  |Titulo       |Usuario             |Contraseña      |Fecha     | Url                  ")
         .items(&cuentas_con_formato)
         .default(0)
         .interact_on_opt(&Term::stderr())?;
@@ -198,7 +198,7 @@ fn vista_for_delete(cifrador: &Criptografia) -> std::io::Result<()> {
             lista_cuentas[i].id,
             lista_cuentas[i].titulo.clone(),
             lista_cuentas[i].nombre_usuario,
-            lista_cuentas[i].contrasena,
+            "********",
             datetime.to_rfc3339()[0..10].to_owned(),
             lista_cuentas[i].url.clone()
         );
