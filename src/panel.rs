@@ -16,7 +16,7 @@ use crate::controlador::manipular_info::generador_contra::TipoContra::{ALFABETIC
 
 pub fn panel_loader() -> std::io::Result<()> {
     let selection = Select::with_theme(&ColorfulTheme::default())
-        .with_prompt("Bienvenido, presione enter para logear\nesc para salir")
+        .with_prompt("Bienvenido, presione enter para logear\n  esc para salir")
         .item("ingresar")
         .default(0)
         .interact_on_opt(&Term::stderr())?;
@@ -38,7 +38,6 @@ fn login() {
     let contraseña_maestra = recuperar_datos_master().unwrap();
     let sal = &contraseña_maestra.1;
     let hash_almacenado = &contraseña_maestra.0;
-
     let password = Password::new()
         .with_prompt("Ingrese contraseña maestra")
         .interact()
