@@ -1,7 +1,6 @@
 use aes_gcm_siv::{aead::{Payload, generic_array::GenericArray, Aead}, Aes256GcmSiv, KeyInit};
 use argon2::{Argon2,  password_hash::{SaltString}, PasswordHasher};
 use rand_chacha::{ChaCha20Rng, rand_core::{SeedableRng, RngCore}, ChaChaRng};
-use sha256::try_digest;
 
 pub struct Criptografia{
     cifrador:Aes256GcmSiv,
@@ -74,15 +73,6 @@ pub fn hash_contra_maestra(contra:&[u8],sal:&[u8;16])->Vec<u8>{
 
 }
 
-
-//pub fn crear_payload<'a>(contenido:&'a [u8],verificador:&'a [u8])->Payload<'a,'a>{
-//    let mut payload_creada:Payload<'a,'a>=Payload::from(contenido);
-//    payload_creada.aad=verificador;
-//    payload_creada
-//}
-
-
-
 pub fn crear_nonce()->[u8;12]{
     let mut rand=ChaChaRng::from_entropy();
     let mut nonce=[0u8;12];
@@ -99,5 +89,3 @@ pub fn crear_nonce()->[u8;12]{
 pub fn hash_entregado_valido(hash_entregado:&[u8],hash_almacenado:&[u8])->bool{
     hash_entregado==hash_almacenado
 }
-
-
