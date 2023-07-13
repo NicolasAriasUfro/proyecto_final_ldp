@@ -1,5 +1,5 @@
-use aes_gcm_siv::{aead::{Payload, generic_array::GenericArray, Aead}, Aes256GcmSiv, KeyInit};
-use argon2::{Argon2,  password_hash::{SaltString}, PasswordHasher};
+use aes_gcm_siv::{aead::{generic_array::GenericArray, Aead}, Aes256GcmSiv, KeyInit};
+use argon2::{Argon2,  password_hash::SaltString, PasswordHasher};
 use rand_chacha::{ChaCha20Rng, rand_core::{SeedableRng, RngCore}, ChaChaRng};
 
 pub struct Criptografia{
