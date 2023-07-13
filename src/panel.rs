@@ -97,7 +97,6 @@ pub fn seleccionar(cifrador: &Criptografia) -> std::io::Result<()> {
         "Ver cuentas",
         "Crear cuenta nueva",
         "Borrar cuenta",
-        "instrucciones",
         "Crear contraseña aleatoria"
     ];
     println!("para salir presione esc");
@@ -119,9 +118,6 @@ pub fn seleccionar(cifrador: &Criptografia) -> std::io::Result<()> {
                 vista_for_delete(&cifrador)?
             }
             if index == 3 {
-                todo!()
-            }
-            if index == 4 {
                 contrasena_aleatoria()?
             }
         }
