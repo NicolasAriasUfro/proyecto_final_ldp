@@ -64,18 +64,13 @@ impl Entrada {
             Some(cyphertext)=>cyphertext,
             None=>panic!("algo salio mal con cifrar contra {} y nonce {:?} ",self.contrasena,self.nonce)
         };
-        //general_purpose::STANDARD_NO_PAD.encode(contra_cifrada)
         contra_cifrada
     }
-
-    
-
 }
 
 pub fn descifrar_contra(contra_cifrada:Vec<u8>,nonce:Vec<u8>,cifrador:&Criptografia)->String{
     let contra_cifrada_bytes=contra_cifrada.as_slice();
     let nonce:&[u8;12]=nonce.as_slice().try_into().expect("nonce no era de 12 bytes o algo salio mal...");
-
     let contra_descifrada_bytes=match cifrador.descifrar_bytes(nonce, &contra_cifrada_bytes){
         Some(descifrado)=>descifrado,
         None=>panic!("algo salio mal con descifrar contra {:?} y nonce {:?} ",contra_cifrada_bytes,nonce)

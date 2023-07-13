@@ -3,7 +3,6 @@ use clipboard::{ClipboardProvider, ClipboardContext};
 
 pub fn copiar_al_portapapeles(texto: &str) {
     let mut ctx:ClipboardContext=ClipboardProvider::new().unwrap();
-    // Copiar texto al portapapeles
     if ctx.set_contents(texto.to_owned()).is_ok() {
         match ctx.get_contents(){
             Ok(_)=>println!("Texto copiado al portapapeles"),

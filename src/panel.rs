@@ -16,7 +16,7 @@ use crate::controlador::manipular_info::generador_contra::TipoContra::{ALFABETIC
 
 pub fn panel_loader() -> std::io::Result<()> {
     let selection = Select::with_theme(&ColorfulTheme::default())
-        .with_prompt("Bienvenido, presione enter para logear\nesc para salir")
+        .with_prompt("Bienvenido, presione enter para logear\n  esc para salir")
         .item("ingresar")
         .default(0)
         .interact_on_opt(&Term::stderr())?;
@@ -38,7 +38,6 @@ fn login() {
     let contraseña_maestra = recuperar_datos_master().unwrap();
     let sal = &contraseña_maestra.1;
     let hash_almacenado = &contraseña_maestra.0;
-
     let password = Password::new()
         .with_prompt("Ingrese contraseña maestra")
         .interact()
@@ -258,7 +257,7 @@ fn cuenta_detallada(cuenta: &Entrada) -> std::io::Result<()> {
     Ok(())
 }
 fn contrasena_aleatoria() -> std::io::Result<()> {
-    let opciones = vec!["Alfabética","Numérica","Alfanumérica","Con Carácteres Especiales"];// todo: cambiar el nombre de full
+    let opciones = vec!["Alfabética","Numérica","Alfanumérica","Con Carácteres Especiales"];
 
     let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
         .with_prompt("Indique el tipo de contraseña requerido")

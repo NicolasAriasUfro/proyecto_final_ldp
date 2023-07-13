@@ -14,7 +14,6 @@ pub fn generar_contra(tipo: TipoContra, longitud: u16) -> String {
     let mut caracteres_usados = String::new();
     let mut contra_generada = String::new();
     iniciar_caracteres_usados(tipo, &mut caracteres_usados);
-    //let rng=rand::thread_rng();
     let mut rng = ChaChaRng::from_entropy();
     for _i in 0..longitud {
         let caracteres_usados: Vec<char> = caracteres_usados.chars().collect();
