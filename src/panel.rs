@@ -50,7 +50,7 @@ fn login() {
         let cifrador = iniciar_base_de_datos_existente(&password, &sal);
         panel_main(cifrador);
     } else {
-        println!("error")
+        println!("Contraseña incorrecta")
     }
 }
 
