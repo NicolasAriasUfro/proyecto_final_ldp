@@ -127,7 +127,7 @@ pub fn seleccionar(cifrador: &Criptografia) -> std::io::Result<()> {
 }
 
 fn instrucciones() {
-    let texto: String = Input::with_theme(&ColorfulTheme::default())
+    let _texto: String = Input::with_theme(&ColorfulTheme::default())
         .with_prompt(
             "Para manejar el programa use las teclas enter para confirmar
   flecha arriba/abajo: para navegar por el menu
@@ -258,7 +258,7 @@ fn cuenta_detallada(cuenta: &Entrada) -> std::io::Result<()> {
     cuenta_con_formato.push(string_pusher_2);
     clipboard_generic::copiar_al_portapapeles(&cuenta.contrasena);
 
-    let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
+    let _selection = FuzzySelect::with_theme(&ColorfulTheme::default())
         .with_prompt("Id  |Titulo            |Usuario             |Contraseña      |Fecha     | Url                  ")
         .items(&cuenta_con_formato)
         .default(0)

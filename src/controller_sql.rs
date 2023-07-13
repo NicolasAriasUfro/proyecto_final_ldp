@@ -1,9 +1,7 @@
 use rusqlite::{params, Connection, Result, Error};
 use crate::controlador::manipular_info::info_almacenada::*;
 use std::fs;
-use crate::controlador::manipular_info::crypto_base;
 use crate::controlador::manipular_info::crypto_base::Criptografia;
-use crate::controlador::manipular_info::info_almacenada;
 
 pub fn existe_la_base_de_datos() -> bool {
     let ruta_archivo = "./database.db";
@@ -38,6 +36,8 @@ pub fn set_database() -> Result<()> {
 }
 
 /* 
+// quedo sin uso, pero lo dejamos para una posible implementacion a futuro
+
 fn actualizar_cuenta(cuenta: &Entrada,cifrador:&Criptografia) -> Result<()> {
     let contra_cifrada = &cuenta.cifrar_contra(cifrador);
     let conn = Connection::open("database.db")?;
