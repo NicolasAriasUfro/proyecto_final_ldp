@@ -197,7 +197,7 @@ fn vista_for_delete(cifrador: &Criptografia) -> std::io::Result<()> {
             lista_cuentas[i].id,
             lista_cuentas[i].titulo.clone(),
             lista_cuentas[i].nombre_usuario,
-            lista_cuentas[i].contrasena,
+            "********",
             datetime.to_rfc3339()[0..10].to_owned(),
             lista_cuentas[i].url.clone()
         );
