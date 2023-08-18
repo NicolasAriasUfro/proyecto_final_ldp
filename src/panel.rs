@@ -148,7 +148,7 @@ fn vista_for_selection(cifrador: &Criptografia) -> std::io::Result<()> {
     }
 
     let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
-        .with_prompt("Id  |Titulo        |Usuario             |Contraseña      |Fecha     | Url                  ")
+        .with_prompt("Id  |Titulo       |Usuario             |Contraseña      |Fecha     | Url                  ")
         .items(&cuentas_con_formato)
         .default(0)
         .interact_on_opt(&Term::stderr())?;
